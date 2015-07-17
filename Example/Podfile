@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+target 'BXRouter_Example', :exclusive => true do
+  pod "BXRouter", :path => "../"
+end
+
+target 'BXRouter_Tests', :exclusive => true do
+  pod "BXRouter", :path => "../"
+
+  
+end
