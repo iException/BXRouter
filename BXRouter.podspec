@@ -9,14 +9,14 @@
 
 Pod::Spec.new do |s|
   s.name             = "BXRouter"
-  s.version          = "1.0.0"
+  s.version          = "1.0.1"
   s.summary          = "BXRouter is a iOS viewController transiton library."
   s.description      = "BXRouter is a iOS viewController transiton library. We can use alias to jump viewController, which can dynamic config from remote server."
   s.homepage         = "https://github.com/iException/BXRouter"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "phoebus" => "shaozhengxingok@126.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/BXRouter.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/iException/BXRouter.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform     = :ios, '7.0'

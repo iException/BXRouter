@@ -7,7 +7,6 @@
 //
 
 #import "BXRouterUrl.h"
-#import <NSString+BXURLEncode.h>
 
 NSString *const kBXRouterUrlSchema   = @"schema";
 NSString *const kBXRouterUrlAlias    = @"alias";
@@ -27,7 +26,7 @@ NSString *const kBXRouterUrlParamMap = @"paramMap";
 {
     self = [super init];
     if (self) {
-        NSDictionary *urlMap = [self parseUrl:[url urlEncode]];
+        NSDictionary *urlMap = [self parseUrl:url];
         self.urlSchema       = [urlMap objectForKey:kBXRouterUrlSchema];
         self.vcAlias         = [urlMap objectForKey:kBXRouterUrlAlias];
         self.queryParams     = [urlMap objectForKey:kBXRouterUrlParamMap];

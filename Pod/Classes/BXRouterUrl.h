@@ -21,7 +21,7 @@
 @property (nonatomic, strong, readonly) NSString     *vcAlias;
 
 /**
- *  The url parameters.
+ *  The url parameters，must url encode before.
  */
 @property (nonatomic, strong, readonly) NSDictionary *queryParams;
 
