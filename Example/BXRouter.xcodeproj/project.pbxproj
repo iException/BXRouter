@@ -20,6 +20,11 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
+		69A4F7101B59068B004C2594 /* vcmap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69A4F70F1B59068B004C2594 /* vcmap.plist */; };
+		69A4F7131B590766004C2594 /* BXStoryboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A4F7121B590766004C2594 /* BXStoryboardController.m */; };
+		69A4F7171B59079C004C2594 /* BXNibViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A4F7151B59079C004C2594 /* BXNibViewController.m */; };
+		69A4F7181B59079C004C2594 /* BXNibViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69A4F7161B59079C004C2594 /* BXNibViewController.xib */; };
+		69A4F71B1B5907B7004C2594 /* BXCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A4F71A1B5907B7004C2594 /* BXCodeViewController.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		9B2D96E3360A16CEE15A6C0C /* Pods_BXRouter_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 488D00CE24542471775A98D3 /* Pods_BXRouter_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		BEB6FB596C118FA40EBF0096 /* Pods_BXRouter_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1B42538CF72ADB101BAB9A /* Pods_BXRouter_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -42,7 +47,7 @@
 		15E777326FF4B9A3165AC555 /* Pods-BXRouter_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BXRouter_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-BXRouter_Example/Pods-BXRouter_Example.release.xcconfig"; sourceTree = "<group>"; };
 		2F88C30DE72559AB371B9696 /* Pods-BXRouter_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BXRouter_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BXRouter_Tests/Pods-BXRouter_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		488D00CE24542471775A98D3 /* Pods_BXRouter_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BXRouter_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6003F58A195388D20070C39A /* BXRouter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = BXRouter.app; path = BXRouter_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F58A195388D20070C39A /* BXRouter_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BXRouter_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -55,12 +60,20 @@
 		6003F5A5195388D20070C39A /* BXViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BXViewController.h; sourceTree = "<group>"; };
 		6003F5A6195388D20070C39A /* BXViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BXViewController.m; sourceTree = "<group>"; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6003F5AE195388D20070C39A /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Tests.xctest; path = BXRouter_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F5AE195388D20070C39A /* BXRouter_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BXRouter_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		69A4F70F1B59068B004C2594 /* vcmap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = vcmap.plist; sourceTree = "<group>"; };
+		69A4F7111B590766004C2594 /* BXStoryboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXStoryboardController.h; sourceTree = "<group>"; };
+		69A4F7121B590766004C2594 /* BXStoryboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXStoryboardController.m; sourceTree = "<group>"; };
+		69A4F7141B59079C004C2594 /* BXNibViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXNibViewController.h; sourceTree = "<group>"; };
+		69A4F7151B59079C004C2594 /* BXNibViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXNibViewController.m; sourceTree = "<group>"; };
+		69A4F7161B59079C004C2594 /* BXNibViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BXNibViewController.xib; sourceTree = "<group>"; };
+		69A4F7191B5907B7004C2594 /* BXCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXCodeViewController.h; sourceTree = "<group>"; };
+		69A4F71A1B5907B7004C2594 /* BXCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXCodeViewController.m; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		BF8F327BF254474D3238FC7D /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		CB5C38C82AE7254FCB9BE971 /* BXRouter.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = BXRouter.podspec; path = ../BXRouter.podspec; sourceTree = "<group>"; };
@@ -119,8 +132,8 @@
 		6003F58B195388D20070C39A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6003F58A195388D20070C39A /* BXRouter.app */,
-				6003F5AE195388D20070C39A /* Tests.xctest */,
+				6003F58A195388D20070C39A /* BXRouter_Example.app */,
+				6003F5AE195388D20070C39A /* BXRouter_Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -141,6 +154,7 @@
 		6003F593195388D20070C39A /* Example for BXRouter */ = {
 			isa = PBXGroup;
 			children = (
+				69A4F70F1B59068B004C2594 /* vcmap.plist */,
 				6003F59C195388D20070C39A /* BXAppDelegate.h */,
 				6003F59D195388D20070C39A /* BXAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
@@ -148,6 +162,13 @@
 				6003F5A6195388D20070C39A /* BXViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				69A4F7111B590766004C2594 /* BXStoryboardController.h */,
+				69A4F7121B590766004C2594 /* BXStoryboardController.m */,
+				69A4F7141B59079C004C2594 /* BXNibViewController.h */,
+				69A4F7151B59079C004C2594 /* BXNibViewController.m */,
+				69A4F7161B59079C004C2594 /* BXNibViewController.xib */,
+				69A4F7191B5907B7004C2594 /* BXCodeViewController.h */,
+				69A4F71A1B5907B7004C2594 /* BXCodeViewController.m */,
 			);
 			name = "Example for BXRouter";
 			path = BXRouter;
@@ -213,7 +234,7 @@
 			);
 			name = BXRouter_Example;
 			productName = BXRouter;
-			productReference = 6003F58A195388D20070C39A /* BXRouter.app */;
+			productReference = 6003F58A195388D20070C39A /* BXRouter_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6003F5AD195388D20070C39A /* BXRouter_Tests */ = {
@@ -234,7 +255,7 @@
 			);
 			name = BXRouter_Tests;
 			productName = BXRouterTests;
-			productReference = 6003F5AE195388D20070C39A /* Tests.xctest */;
+			productReference = 6003F5AE195388D20070C39A /* BXRouter_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -276,8 +297,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69A4F7101B59068B004C2594 /* vcmap.plist in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
+				69A4F7181B59079C004C2594 /* BXNibViewController.xib in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,7 +415,10 @@
 			files = (
 				6003F59E195388D20070C39A /* BXAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* BXViewController.m in Sources */,
+				69A4F7171B59079C004C2594 /* BXNibViewController.m in Sources */,
+				69A4F7131B590766004C2594 /* BXStoryboardController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				69A4F71B1B5907B7004C2594 /* BXCodeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

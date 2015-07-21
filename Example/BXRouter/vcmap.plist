@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>unique</key>
+		<false/>
+		<key>note</key>
+		<string>代码跳转</string>
+		<key>class</key>
+		<string>BXCodeViewController</string>
+		<key>alias</key>
+		<string>code_controller</string>
+		<key>transform</key>
+		<string>push</string>
+	</dict>
+	<dict>
+		<key>unique</key>
+		<false/>
+		<key>note</key>
+		<string>Nib跳转</string>
+		<key>class</key>
+		<string>BXNibViewController</string>
+		<key>alias</key>
+		<string>nib_controller</string>
+		<key>transform</key>
+		<string>push</string>
+	</dict>
+	<dict>
+		<key>unique</key>
+		<false/>
+		<key>note</key>
+		<string>Storyboard跳转</string>
+		<key>class</key>
+		<string>BXStoryboardController</string>
+		<key>storyboard</key>
+		<string>Main</string>
+		<key>alias</key>
+		<string>storyboard_controller</string>
+		<key>transform</key>
+		<string>present</string>
+	</dict>
+</array>
+</plist>

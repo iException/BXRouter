@@ -7,6 +7,8 @@
 //
 
 #import "BXViewController.h"
+#import "BXRouterMapItem.h"
+#import "BXRouterManager.h"
 
 @interface BXViewController ()
 
@@ -18,12 +20,30 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"vcmap" ofType:@"plist"];
+    NSMutableArray *array = [NSMutableArray array];
+    for (id item in [NSArray arrayWithContentsOfFile:plistPath]) {
+        [array addObject:[[BXRouterMapItem alloc] initWithObject:item]];
+    }
+    [[BXRouterManager shareVCManager] registerRouterMapList:array];
 }
 
-- (void)didReceiveMemoryWarning
+- (IBAction)jumpByStoryboard:(id)sender
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://storyboard_controller/?"];
+    [[BXRouterManager shareVCManager] openUrl:url delegate:self];
+}
+
+- (IBAction)jumpByNib:(id)sender
+{
+    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://nib_controller/?"];
+    [[BXRouterManager shareVCManager] openUrl:url delegate:self];
+}
+
+- (IBAction)jumpByCode:(id)sender
+{
+    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://code_controller/?"];
+    [[BXRouterManager shareVCManager] openUrl:url delegate:self];
 }
 
 @end

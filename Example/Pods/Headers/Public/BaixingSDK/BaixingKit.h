@@ -1,0 +1,1 @@
+../../../BaixingSDK/Pod/Classes/BaixingSDK/BaixingKit.h

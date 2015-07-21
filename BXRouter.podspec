@@ -9,15 +9,10 @@
 
 Pod::Spec.new do |s|
   s.name             = "BXRouter"
-  s.version          = "0.1.0"
-  s.summary          = "A short description of BXRouter."
-  s.description      = <<-DESC
-                       An optional longer description of BXRouter
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
-                       DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/BXRouter"
+  s.version          = "1.0.0"
+  s.summary          = "BXRouter is a iOS viewController transiton library."
+  s.description      = "BXRouter is a iOS viewController transiton library. We can use alias to jump viewController, which can dynamic config from remote server."
+  s.homepage         = "https://github.com/iException/BXRouter"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "phoebus" => "shaozhengxingok@126.com" }
@@ -34,5 +29,5 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'BaixingSDK'
 end
