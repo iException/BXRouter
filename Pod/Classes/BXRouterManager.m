@@ -75,18 +75,21 @@
 
 - (BXTransformType)getTransformTypeByAlias:(NSString *)alias
 {
+    // default is push transition.
+    BXTransformType transformType = BXTransformPush;
+    
     for (BXRouterMapItem *mapItem in _vcMap) {
         if ([mapItem.alias compare:alias] == NSOrderedSame) {
             if ([mapItem.transform isEqualToString:@"present"]) {
-                return BXTransformPresent;
-            } else if ([mapItem.transform isEqualToString:@"push"]) {
-                return BXTransformPush;
+                transformType = BXTransformPresent;
             } else if ([mapItem.transform isEqualToString:@"pop"]) {
-                return BXTransformPop;
+                transformType = BXTransformPop;
             }
+            break;
         }
     }
-    return BXTransformNone;
+    
+    return transformType;
 }
 
 - (UIViewController<BXRouterProtocol> *)getControllerByUrl:(BXRouterUrl *)url
