@@ -136,11 +136,13 @@
     }
     
     if (BXTransformPresent == transform) {
-        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
-        [delegate presentViewController:navigation animated:YES completion:^{}];
+        [delegate presentViewController:controller animated:YES completion:^{}];
     } else if (BXTransformPush == transform) {
         if ([delegate isKindOfClass:[UINavigationController class]]) {
             [(UINavigationController *)delegate pushViewController:controller animated:YES];
+        } else if (delegate.navigationController == nil) {
+            UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:delegate];
+            [navigation pushViewController:controller animated:YES];
         } else {
             [delegate.navigationController pushViewController:controller animated:YES];
         }
