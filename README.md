@@ -7,7 +7,7 @@
 
 ## Usage
 
-BXRouter is a iOS viewController transiton library. We can use alias to jump viewController, which can dynamic config from remote server.
+BXRouter is a iOS viewController transition library. We can use alias to jump viewController, which can dynamic config from remote server.
 
 ## Installation
 
