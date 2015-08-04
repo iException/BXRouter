@@ -136,7 +136,12 @@
     }
     
     if (BXTransformPresent == transform) {
-        [delegate presentViewController:controller animated:YES completion:^{}];
+        if (delegate.navigationController == nil) {
+            UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
+            [delegate presentViewController:navigation animated:YES completion:^{}];
+        } else {
+            [delegate presentViewController:controller animated:YES completion:^{}];
+        }
     } else if (BXTransformPush == transform) {
         if ([delegate isKindOfClass:[UINavigationController class]]) {
             [(UINavigationController *)delegate pushViewController:controller animated:YES];

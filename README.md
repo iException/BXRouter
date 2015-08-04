@@ -7,9 +7,7 @@
 
 ## Usage
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
+BXRouter is a iOS viewController transiton library. We can use alias to jump viewController, which can dynamic config from remote server.
 
 ## Installation
 
@@ -19,6 +17,8 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "BXRouter"
 ```
+
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Author
 
