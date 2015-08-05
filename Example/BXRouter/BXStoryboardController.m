@@ -24,4 +24,9 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (BOOL)needInNavigationController
+{
+    return YES;
+}
+
 @end

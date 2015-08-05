@@ -127,16 +127,24 @@
         [controller queryParamsToPropertyKeyPaths:url];
     }
     
+    // if need in a UINavigationController.
+    BOOL needInNavigationController = NO;
+    if ([controller respondsToSelector:@selector(needInNavigationController)]) {
+        needInNavigationController = [controller needInNavigationController];
+    }
+    
     // get transform type
     BXTransformType transform = BXTransformNone;
     if (nil == delegate.navigationController) {
+        // if navigationController is nil, must present,
+        // or adding a root view controller as a child of view controller
         transform = BXTransformPresent;
     } else {
         transform = [self getTransformTypeByAlias:url.vcAlias];
     }
     
     if (BXTransformPresent == transform) {
-        if (delegate.navigationController == nil) {
+        if ([controller isKindOfClass:[UINavigationController class]] || needInNavigationController) {
             UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
             [delegate presentViewController:navigation animated:YES completion:^{}];
         } else {
@@ -145,9 +153,6 @@
     } else if (BXTransformPush == transform) {
         if ([delegate isKindOfClass:[UINavigationController class]]) {
             [(UINavigationController *)delegate pushViewController:controller animated:YES];
-        } else if (delegate.navigationController == nil) {
-            UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:delegate];
-            [navigation pushViewController:controller animated:YES];
         } else {
             [delegate.navigationController pushViewController:controller animated:YES];
         }

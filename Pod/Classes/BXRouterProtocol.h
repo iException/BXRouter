@@ -17,4 +17,11 @@
  */
 - (void)queryParamsToPropertyKeyPaths:(BXRouterUrl *)url;
 
+/**
+ *  When transition is present, if need in a UINavigationController.
+ *
+ *  @return YES if need in a UINavigationController.
+ */
+- (BOOL)needInNavigationController;
+
 @end
