@@ -26,6 +26,7 @@
         [array addObject:[[BXRouterMapItem alloc] initWithObject:item]];
     }
     [[BXRouterManager shareVCManager] registerRouterMapList:array];
+    [[BXRouterManager shareVCManager] registerClassPrefix:@"BX"];
 }
 
 - (IBAction)jumpByStoryboard:(id)sender

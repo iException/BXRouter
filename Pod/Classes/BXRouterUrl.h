@@ -16,9 +16,14 @@
 @property (nonatomic, strong, readonly) NSString     *urlSchema;
 
 /**
- *  The view controller alias.
+ *  The class alias, can be class full name or alias waiting for prefix & suffix.
  */
-@property (nonatomic, strong, readonly) NSString     *vcAlias;
+@property (nonatomic, strong, readonly) NSString     *classAlias;
+
+/**
+ *  The class category, can be storyboard=xxx or nib or code.
+ */
+@property (nonatomic, strong, readonly) NSString     *classCategory;
 
 /**
  *  The url parameters，must url encode before.

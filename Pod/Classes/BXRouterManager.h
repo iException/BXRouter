@@ -12,6 +12,8 @@
 
 @interface BXRouterManager : NSObject
 
+@property (nonatomic, strong, readonly) NSString *classPrefix;
+
 /**
  *  @return BXRouterManager singleton
  */
@@ -26,6 +28,14 @@
  *  @return YES if register is successful, otherwise NO.
  */
 - (BOOL)registerRouterMapList:(NSArray *)routerList;
+
+/**
+ *  Register class prefix
+ *  the prefix is the prefix of whole project such as BX.
+ *
+ *  @return YES if prefix is given, otherwise prefix is needless.
+ */
+- (BOOL)registerClassPrefix:(NSString *)prefix;
 
 /**
  *  Jump to the view controller which router url maped.
