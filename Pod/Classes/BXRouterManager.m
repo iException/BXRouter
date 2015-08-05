@@ -144,7 +144,7 @@
     }
     
     if (BXTransformPresent == transform) {
-        if ([controller isKindOfClass:[UINavigationController class]] || needInNavigationController) {
+        if (needInNavigationController) {
             UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
             [delegate presentViewController:navigation animated:YES completion:^{}];
         } else {
