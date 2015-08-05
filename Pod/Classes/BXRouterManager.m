@@ -128,7 +128,7 @@
     }
     
     // if need in a UINavigationController.
-    BOOL needInNavigationController = NO;
+    BOOL needInNavigationController = YES;
     if ([controller respondsToSelector:@selector(needInNavigationController)]) {
         needInNavigationController = [controller needInNavigationController];
     }

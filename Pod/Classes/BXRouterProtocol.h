@@ -20,7 +20,7 @@
 /**
  *  When transition is present, if need in a UINavigationController.
  *
- *  @return YES if need in a UINavigationController.
+ *  @return default YES.
  */
 - (BOOL)needInNavigationController;
 
