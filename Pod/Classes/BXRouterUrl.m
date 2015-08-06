@@ -8,16 +8,18 @@
 
 #import "BXRouterUrl.h"
 
-NSString *const kBXRouterUrlSchema         = @"schema";
-NSString *const kBXRouterUrlCLassAlias     = @"alias";
-NSString *const kBXRouterUrlClassCategory  = @"storyboard";
-NSString *const kBXRouterUrlParamMap       = @"paramMap";
+NSString *const kBXRouterUrlSchema        = @"schema";
+NSString *const kBXRouterUrlCLassAlias    = @"alias";
+NSString *const kBXRouterUrlClassCategory = @"category";
+NSString *const kBXRouterUrlTransform     = @"transform";
+NSString *const kBXRouterUrlParamMap      = @"paramMap";
 
 @interface BXRouterUrl ()
 
 @property (nonatomic, strong, readwrite) NSString *urlSchema;
 @property (nonatomic, strong, readwrite) NSString *classAlias;
 @property (nonatomic, strong, readwrite) NSString *classCategory;
+@property (nonatomic, strong, readwrite) NSString *transform;
 @property (nonatomic, strong, readwrite) NSDictionary *queryParams;
 
 @end
@@ -32,6 +34,7 @@ NSString *const kBXRouterUrlParamMap       = @"paramMap";
         self.urlSchema       = [urlMap objectForKey:kBXRouterUrlSchema];
         self.classAlias      = [urlMap objectForKey:kBXRouterUrlCLassAlias];
         self.classCategory   = [urlMap objectForKey:kBXRouterUrlClassCategory];
+        self.transform       = [urlMap objectForKey:kBXRouterUrlTransform];
         self.queryParams     = [urlMap objectForKey:kBXRouterUrlParamMap];
     }
     return self;
@@ -39,7 +42,8 @@ NSString *const kBXRouterUrlParamMap       = @"paramMap";
 
 #pragma mark -
 #pragma mark - General Method
-//  bxapp://BXRootViewController/storyboard=Main/transform=xxx&param=xxx
+//  bxapp://BXRootViewController/storyboard=Main/transform/paramA=xxx&paramB=xxx
+//                              "storyboard", "transform", "params" can be NULL
 - (NSDictionary *)parseUrl:(NSString *)url
 {
     NSAssert([url isKindOfClass:[NSString class]], @"this is a fail url.");
@@ -60,10 +64,16 @@ NSString *const kBXRouterUrlParamMap       = @"paramMap";
         [urlMap setObject:alias forKey:kBXRouterUrlCLassAlias];
     }
     
-    // parse storyboard
-    NSString *category = [self getVcStoryboardCategory:vcparams];
+    // parse class category
+    NSString *category = [self getVCStoryboardCategoryByComponents:vcparams];
     if ( category ) {
         [urlMap setObject:category forKey:kBXRouterUrlClassCategory];
+    }
+    
+    // parse class category
+    NSString *transform = [self getVcTransformByComponents:vcparams];
+    if ( transform ) {
+        [urlMap setObject:transform forKey:kBXRouterUrlTransform];
     }
     
     // parse parameters
@@ -81,15 +91,15 @@ NSString *const kBXRouterUrlParamMap       = @"paramMap";
 }
 
 - (NSString *)vcAliasSeparatedByComponents:(NSArray *)components
-{
-    NSAssert([components count] == 3, @"This is a failure when parse alias.");
+{   //懒用户可能会省略字段，蠢用户可能会把字段顺序弄错，这里的防错之后再加
+    NSAssert([components count] == 4, @"This is a failure when parse alias.");
     
     return [components objectAtIndex:0];
 }
 
-- (NSString *)getVcStoryboardCategory:(NSArray *)vcparams
+- (NSString *)getVCStoryboardCategoryByComponents:(NSArray *)components
 {
-    NSString *category = [vcparams objectAtIndex:1];
+    NSString *category = [components objectAtIndex:1];
     NSArray *categoryCollection = @[@"nib",@"code"];
     
     BOOL categoryIsLegal = [categoryCollection containsObject:category];
@@ -98,6 +108,16 @@ NSString *const kBXRouterUrlParamMap       = @"paramMap";
     }
     NSAssert(categoryIsLegal, @"This is a failure when parse storyboard category.");
     return category;
+}
+
+- (NSString *)getVcTransformByComponents:(NSArray *)components
+{
+    NSString *transformStyle = [components objectAtIndex:2];
+    NSArray *styleCollection = @[@"present", @"push", @"pop"];
+    
+    NSAssert([styleCollection containsObject:transformStyle],
+             @"This is a failure when parse view controller transform style.");
+    return transformStyle;
 }
 
 - (NSDictionary *)queryParamsSeparatedByComponents:(NSArray *)components

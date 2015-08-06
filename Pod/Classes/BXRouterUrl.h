@@ -26,6 +26,11 @@
 @property (nonatomic, strong, readonly) NSString     *classCategory;
 
 /**
+ *  The view controller transform style, can be present, push or pop.
+ */
+@property (nonatomic, strong, readonly) NSString     *transform;
+
+/**
  *  The url parameters，must url encode before.
  */
 @property (nonatomic, strong, readonly) NSDictionary *queryParams;
