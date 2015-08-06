@@ -14,8 +14,6 @@
 
 @property (nonatomic, strong) NSArray *vcMap;
 
-@property (nonatomic, strong, readwrite) NSString *classPrefix;
-
 @end
 
 @implementation BXRouterManager
@@ -43,13 +41,6 @@
 - (instancetype)init
 {
     return [BXRouterManager shareVCManager];
-}
-
-- (BOOL)registerClassPrefix:(NSString *)prefix
-{
-    self.classPrefix = prefix;
-
-    return YES;
 }
 
 - (BOOL)registerRouterMapList:(NSArray *)routerList
@@ -103,7 +94,7 @@
 
 - (UIViewController<BXRouterProtocol> *)getControllerByUrl:(BXRouterUrl *)url
 {
-    BXRouterMapItem *mapItem = [self mapItemByAlias:url.classAlias];
+    BXRouterMapItem *mapItem = [self mapItemByAlias:url.vcAlias];
     
     if ([[NSBundle mainBundle] pathForResource:mapItem.vcClass ofType:@"nib"]) {
         // return view controller from nib
@@ -129,24 +120,31 @@
     NSAssert(self.vcMap, @"please call 'registerRouterMapList' method first.");
     
     // get controller by url
-//    UIViewController<BXRouterProtocol> *controller = [self getControllerByUrl:url];
-    UIViewController<BXRouterProtocol> *controller = [self getControllerByUrlClass:url];
+    UIViewController<BXRouterProtocol> *controller = [self getControllerByUrl:url];
     
     // parse router url queryParams
     if ([controller respondsToSelector:@selector(queryParamsToPropertyKeyPaths:)]) {
         [controller queryParamsToPropertyKeyPaths:url];
     }
     
+    // if need in a UINavigationController.
+    BOOL needInNavigationController = YES;
+    if ([controller respondsToSelector:@selector(needInNavigationController)]) {
+        needInNavigationController = [controller needInNavigationController];
+    }
+    
     // get transform type
     BXTransformType transform = BXTransformNone;
     if (nil == delegate.navigationController) {
+        // if navigationController is nil, must present,
+        // or adding a root view controller as a child of view controller
         transform = BXTransformPresent;
     } else {
-        transform = [self getTransformTypeByAlias:url.classAlias];
+        transform = [self getTransformTypeByAlias:url.vcAlias];
     }
     
     if (BXTransformPresent == transform) {
-        if (delegate.navigationController == nil) {
+        if (needInNavigationController) {
             UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
             [delegate presentViewController:navigation animated:YES completion:^{}];
         } else {
@@ -155,14 +153,11 @@
     } else if (BXTransformPush == transform) {
         if ([delegate isKindOfClass:[UINavigationController class]]) {
             [(UINavigationController *)delegate pushViewController:controller animated:YES];
-        } else if (delegate.navigationController == nil) {
-            UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:delegate];
-            [navigation pushViewController:controller animated:YES];
         } else {
             [delegate.navigationController pushViewController:controller animated:YES];
         }
     } else {
-        BXRouterMapItem *mapItem = [self mapItemByAlias:url.classAlias];
+        BXRouterMapItem *mapItem = [self mapItemByAlias:url.vcAlias];
         __weak NSArray *viewControllers = delegate.navigationController.viewControllers;
         [viewControllers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             if ([obj isMemberOfClass:NSClassFromString(mapItem.vcClass)]) {
@@ -176,25 +171,5 @@
     
     return controller;
 }
-
-- (UIViewController<BXRouterProtocol> *)getControllerByUrlClass:(BXRouterUrl *)url
-{
-    if ([url.classCategory isEqualToString:@"nib"]) {
-        // return view controller from nib
-        return [[NSClassFromString(url.classAlias) alloc] initWithNibName:url.classAlias bundle:nil];
-    } else if (0 == [url.classCategory rangeOfString:@"storyboard="].length) {
-        // return view controller from code
-        return [[NSClassFromString(url.classAlias) alloc] init];
-    } else {
-            // return view controller from storyboard
-        NSArray *array = [url.classAlias componentsSeparatedByString:@"="];
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:[array objectAtIndex:1] bundle:nil];
-        if (storyboard != nil) {
-            return [storyboard instantiateViewControllerWithIdentifier:url.classAlias];
-        }
-    }
-    return nil;
-}
-
 
 @end
