@@ -48,10 +48,3 @@
 - (UIViewController<BXRouterProtocol> *)openUrl:(BXRouterUrl *)url delegate:(UIViewController *)delegate;
 
 @end
-
-typedef NS_ENUM(NSInteger, BXTransformType) {
-    BXTransformNone,
-    BXTransformPush,
-    BXTransformPop,
-    BXTransformPresent
-};

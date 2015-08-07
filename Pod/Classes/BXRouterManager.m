@@ -129,10 +129,10 @@
 {
     NSAssert(self.vcMap, @"please call 'registerRouterMapList' method first.");
     
-     [[BXRouterConfig shareConfig] configureControllerByUrl:url withClassPrefix:self.classPrefix];
     // get controller by url
-//    UIViewController<BXRouterProtocol> *controller = [self getControllerByUrl:url];
-    UIViewController<BXRouterProtocol> *controller = [self getControllerByUrlClass:url];
+    UIViewController<BXRouterProtocol> *controller = [[BXRouterConfig shareConfig]
+                                                        configureControllerByUrl:url
+                                                            withPrefix:self.classPrefix];
     
     // parse router url queryParams
     if ([controller respondsToSelector:@selector(queryParamsToPropertyKeyPaths:)]) {
@@ -146,18 +146,13 @@
     }
     
     // get transform type
-    BXTransformType transform = BXTransformNone;
-    if (nil == delegate.navigationController) {
-        // if navigationController is nil, must present,
-        // or adding a root view controller as a child of view controller
-        transform = BXTransformPresent;
-    } else {
-        transform = [self getTransformTypeByAlias:url.classAlias];
-    }
+    BXTransformType transform = [[BXRouterConfig shareConfig] configureTransformTypeByUrl:url
+                                                                             withDelegate:delegate];
     
     if (BXTransformPresent == transform) {
         if (needInNavigationController) {
-            UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
+            UINavigationController *navigation = [[UINavigationController alloc]
+                                                  initWithRootViewController:controller];
             [delegate presentViewController:navigation animated:YES completion:^{}];
         } else {
             [delegate presentViewController:controller animated:YES completion:^{}];
@@ -182,35 +177,6 @@
     }
     
     return controller;
-}
-
-//这个方法也要移到config中去
-- (UIViewController<BXRouterProtocol> *)getControllerByUrlClass:(BXRouterUrl *)url
-{
-    if ([url.classCategory isEqualToString:@"nib"]) {
-        // return view controller from nib
-        return [[NSClassFromString(url.classAlias) alloc] initWithNibName:url.classAlias bundle:nil];
-    } else if ([url.classCategory rangeOfString:@"storyboard="].length == 0) {
-        // return view controller from code
-        return [[NSClassFromString(url.classAlias) alloc] init];
-    } else {
-            // return view controller from storyboard
-        NSArray *array = [url.classAlias componentsSeparatedByString:@"="];
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:[array objectAtIndex:1] bundle:nil];
-        if (storyboard != nil) {
-            return [storyboard instantiateViewControllerWithIdentifier:url.classAlias];
-        }
-    }
-    return nil;
-}
-
-- (NSString *)findClassNameByFixingClassAlias:(NSString *)alias
-{
-    if ( self.classPrefix ) {
-        id xxx = objc_getClass("aaaa");
-    
-    }
-    return nil;
 }
 
 @end

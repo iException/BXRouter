@@ -31,19 +31,22 @@
 
 - (IBAction)jumpByStoryboard:(id)sender
 {
-    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://storyboard_controller/?"];
+//    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://storyboard_controller/?"];
+    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"//bxapp://StoryboardController/storyboard=Main/present/paramA=xxx&paramB=xxx"];
     [[BXRouterManager shareVCManager] openUrl:url delegate:self];
 }
 
 - (IBAction)jumpByNib:(id)sender
 {
-    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://nib_controller/?"];
+//    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://nib_controller/?"];
+    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://NibView/nib/present/paramA=xxx&paramB=xxx"];
     [[BXRouterManager shareVCManager] openUrl:url delegate:self];
 }
 
 - (IBAction)jumpByCode:(id)sender
 {
-    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://code_controller/?"];
+//    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://code_controller/?"];
+    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://Code/code/push/?"];
     [[BXRouterManager shareVCManager] openUrl:url delegate:self];
 }
 
