@@ -42,8 +42,7 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
 
 #pragma mark -
 #pragma mark - General Method
-//  bxapp://BXRootViewController/storyboard=Main/transform/paramA=xxx&paramB=xxx
-//                              "storyboard", "transform", "params" can be NULL
+
 - (NSDictionary *)parseUrl:(NSString *)url
 {
     NSAssert([url isKindOfClass:[NSString class]], @"this is a fail url.");
@@ -91,8 +90,8 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
 }
 
 - (NSString *)vcAliasSeparatedByComponents:(NSArray *)components
-{   //懒用户可能会省略字段，蠢用户可能会把字段顺序弄错，这里的防错之后再加
-    NSAssert([components count] == 4, @"This is a failure when parse alias.");
+{   //懒用户可能会省略字段
+    NSAssert([components count] > 0, @"This is a failure when parse alias.");
     
     return [components objectAtIndex:0];
 }

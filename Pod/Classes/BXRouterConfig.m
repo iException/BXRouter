@@ -48,7 +48,20 @@
     
     // configure controller
     NSString *className =  [self getClassNameByFixingClassAlias:url.classAlias];
-    return [self getControllerByClassName:className andCategory:url.classCategory];
+    if (nil == className) {
+        return nil;
+    }
+    
+    UIViewController<BXRouterProtocol> *controller = [self getControllerByClassName:className
+                                                                        andCategory:url.classCategory];
+    if( controller ) {
+        return controller;
+    } else {
+        // get controller form plist
+        return  [self getControllerByPlist:url.classAlias];
+    }
+    
+    return nil;
 }
 
 - (BXTransformType)configureTransformTypeByUrl:(BXRouterUrl *)url withDelegate:(UIViewController *)delegate
@@ -93,7 +106,8 @@
             return nameWithViewController;
         }
     }
-    //如果找不到类，就要去配置表中找。这个地方待续……
+    // Class does not exist, check plist
+    
     return nil;
 }
 
@@ -113,6 +127,12 @@
             return [storyboard instantiateViewControllerWithIdentifier:name];
         }
     }
+    
+    return nil;
+}
+
+- (UIViewController<BXRouterProtocol> *)getControllerByPlist:(NSString *)alias
+{
     
     return nil;
 }

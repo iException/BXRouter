@@ -39,6 +39,10 @@
  *  Create a router url.
  *
  *  @param url a string which as formatted.
+ *  urlFormat: bxapp://ClassName/classCategory/transform/paramA=xxx&paramB=xxx
+ *      ClassName:     can be class full name or alias which is necessary.
+ *      classCategory: can be "code", "nib", "storyboard=XXX".               default:code
+ *      transform:     can be "push", "pop", "present".                      default:push
  *
  *  @return router url.
  */

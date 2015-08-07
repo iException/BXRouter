@@ -59,7 +59,7 @@
     
     [routerList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if (![obj isMemberOfClass:[BXRouterMapItem class]]) {
-            *stop = YES;
+            *stop  = YES;
             verify = NO;
         }
     }];
@@ -133,7 +133,22 @@
     UIViewController<BXRouterProtocol> *controller = [[BXRouterConfig shareConfig]
                                                         configureControllerByUrl:url
                                                             withPrefix:self.classPrefix];
-    
+    // get transform type
+    BXTransformType transform = [[BXRouterConfig shareConfig] configureTransformTypeByUrl:url
+                                                                             withDelegate:delegate];
+
+    if (nil == controller) {
+        controller = [self getControllerByUrl:url];
+        transform  = [self getTransformTypeByAlias:url.classAlias];
+        
+        if (nil == delegate.navigationController) {
+            // if navigationController is nil, must present,
+            // or adding a root view controller as a child of view controller
+            transform = BXTransformPresent;
+        } else {
+            transform = [self getTransformTypeByAlias:url.classAlias];
+        }
+    }
     // parse router url queryParams
     if ([controller respondsToSelector:@selector(queryParamsToPropertyKeyPaths:)]) {
         [controller queryParamsToPropertyKeyPaths:url];
@@ -144,10 +159,6 @@
     if ([controller respondsToSelector:@selector(needInNavigationController)]) {
         needInNavigationController = [controller needInNavigationController];
     }
-    
-    // get transform type
-    BXTransformType transform = [[BXRouterConfig shareConfig] configureTransformTypeByUrl:url
-                                                                             withDelegate:delegate];
     
     if (BXTransformPresent == transform) {
         if (needInNavigationController) {
