@@ -53,6 +53,12 @@
     return YES;
 }
 
+- (BOOL)resetClassPrefix {
+    self.classPrefix = @"";
+    
+    return YES;
+}
+
 - (BOOL)registerRouterMapList:(NSArray *)routerList
 {
     __block BOOL verify = YES;
@@ -73,37 +79,7 @@
     return verify;
 }
 
-- (BXRouterMapItem *)mapItemByAlias:(NSString *)alias
-{
-    for (BXRouterMapItem *mapItem in self.vcMap) {
-        if ([mapItem.alias compare:alias] == NSOrderedSame) {
-            return mapItem;
-        }
-    }
-    return nil;
-}
-
-- (BXTransformType)getTransformTypeByAlias:(NSString *)alias
-{
-    // default is push transition.
-    BXTransformType transformType = BXTransformPush;
-    
-    for (BXRouterMapItem *mapItem in _vcMap) {
-        if ([mapItem.alias compare:alias] == NSOrderedSame) {
-            if ([mapItem.transform isEqualToString:@"present"]) {
-                transformType = BXTransformPresent;
-            } else if ([mapItem.transform isEqualToString:@"pop"]) {
-                transformType = BXTransformPop;
-            }
-            break;
-        }
-    }
-    
-    return transformType;
-}
-
-- (UIViewController<BXRouterProtocol> *)getControllerByUrl:(BXRouterUrl *)url
-{
+- (UIViewController<BXRouterProtocol> *)configureControllerByPlist:(BXRouterUrl *)url {
     BXRouterMapItem *mapItem = [self mapItemByAlias:url.classAlias];
     
     if ([[NSBundle mainBundle] pathForResource:mapItem.vcClass ofType:@"nib"]) {
@@ -121,8 +97,41 @@
             }
         }
     }
-    
     return nil;
+}
+
+- (BXRouterMapItem *)mapItemByAlias:(NSString *)alias
+{
+    for (BXRouterMapItem *mapItem in self.vcMap) {
+        if ([mapItem.alias compare:alias] == NSOrderedSame) {
+            return mapItem;
+        }
+    }
+    return nil;
+}
+
+- (BXTransformType)configureTransformTypeByPlist:(NSString *)alias delegate:(UIViewController *)delegate
+{
+    // default is push transition.
+    BXTransformType transformType = BXTransformPush;
+    
+    for (BXRouterMapItem *mapItem in _vcMap) {
+        if ([mapItem.alias compare:alias] == NSOrderedSame) {
+            if ([mapItem.transform isEqualToString:@"present"]) {
+                transformType = BXTransformPresent;
+            } else if ([mapItem.transform isEqualToString:@"pop"]) {
+                transformType = BXTransformPop;
+            }
+            break;
+        }
+    }
+    if (nil == delegate.navigationController) {
+        // if navigationController is nil, must present,
+        // or adding a root view controller as a child of view controller
+        transformType = BXTransformPresent;
+    }
+    
+    return transformType;
 }
 
 - (UIViewController<BXRouterProtocol> *)openUrl:(BXRouterUrl *)url delegate:(UIViewController *)delegate
@@ -137,17 +146,12 @@
     BXTransformType transform = [[BXRouterConfig shareConfig] configureTransformTypeByUrl:url
                                                                              withDelegate:delegate];
 
+    // can not get controller by parsing class alias, to search in plist.
     if (nil == controller) {
-        controller = [self getControllerByUrl:url];
-        transform  = [self getTransformTypeByAlias:url.classAlias];
+        controller = [self configureControllerByPlist:url];
+        NSAssert(controller, @"can not find the class by alias or plist");
         
-        if (nil == delegate.navigationController) {
-            // if navigationController is nil, must present,
-            // or adding a root view controller as a child of view controller
-            transform = BXTransformPresent;
-        } else {
-            transform = [self getTransformTypeByAlias:url.classAlias];
-        }
+        transform  = [self configureTransformTypeByPlist:url.classAlias delegate:delegate];
     }
     // parse router url queryParams
     if ([controller respondsToSelector:@selector(queryParamsToPropertyKeyPaths:)]) {
@@ -186,7 +190,6 @@
             }
         }];
     }
-    
     return controller;
 }
 

@@ -38,6 +38,14 @@
 - (BOOL)registerClassPrefix:(NSString *)prefix;
 
 /**
+ *  Reset class prefix to null if no need for prefix.
+ *  If url gives full name containing class prefix, call this method to reset prefix to null before openUrl.
+ *
+ *  @return YES if prefix is reset to null.
+ */
+- (BOOL)resetClassPrefix;
+
+/**
  *  Jump to the view controller which router url maped.
  *
  *  @param url      jump to router url

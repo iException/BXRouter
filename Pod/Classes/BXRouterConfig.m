@@ -51,17 +51,9 @@
     if (nil == className) {
         return nil;
     }
-    
     UIViewController<BXRouterProtocol> *controller = [self getControllerByClassName:className
                                                                         andCategory:url.classCategory];
-    if( controller ) {
-        return controller;
-    } else {
-        // get controller form plist
-        return  [self getControllerByPlist:url.classAlias];
-    }
-    
-    return nil;
+    return controller;
 }
 
 - (BXTransformType)configureTransformTypeByUrl:(BXRouterUrl *)url withDelegate:(UIViewController *)delegate
@@ -80,7 +72,6 @@
             transform = BXTransformPop;
         }
     }
-    
     return transform;
 }
 
@@ -106,8 +97,6 @@
             return nameWithViewController;
         }
     }
-    // Class does not exist, check plist
-    
     return nil;
 }
 
@@ -116,24 +105,17 @@
     if ([category isEqualToString:@"nib"]) {
         // return view controller from nib
         return [[NSClassFromString(name) alloc] initWithNibName:name bundle:nil];
-    } else if ([category rangeOfString:@"storyboard="].length == 0) {
+    } else if ([category rangeOfString:@"storyboard:"].length == 0) {
         // return view controller from code
         return [[NSClassFromString(name) alloc] init];
     } else {
         // return view controller from storyboard
-        NSArray *array = [category componentsSeparatedByString:@"="];
+        NSArray *array = [category componentsSeparatedByString:@":"];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:[array objectAtIndex:1] bundle:nil];
         if (storyboard != nil) {
             return [storyboard instantiateViewControllerWithIdentifier:name];
         }
     }
-    
-    return nil;
-}
-
-- (UIViewController<BXRouterProtocol> *)getControllerByPlist:(NSString *)alias
-{
-    
     return nil;
 }
 
