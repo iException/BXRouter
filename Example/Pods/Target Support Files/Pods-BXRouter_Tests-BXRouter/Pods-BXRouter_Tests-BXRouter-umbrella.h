@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 
+#import "BXRouterConfig.h"
 #import "BXRouterManager.h"
 #import "BXRouterMapItem.h"
 #import "BXRouterProtocol.h"

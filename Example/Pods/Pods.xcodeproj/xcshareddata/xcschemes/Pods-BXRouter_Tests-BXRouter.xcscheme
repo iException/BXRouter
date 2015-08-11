@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5E052A5A923D64541D03E82D"
+               BlueprintIdentifier = "8A4A7E20C187C96D06DAB6D7"
                BuildableName = "BXRouter.framework"
                BlueprintName = "Pods-BXRouter_Tests-BXRouter"
                ReferencedContainer = "container:Pods.xcodeproj">
