@@ -12,8 +12,6 @@
 
 @interface BXRouterManager : NSObject
 
-@property (nonatomic, strong, readonly) NSString *classPrefix;
-
 /**
  *  @return BXRouterManager singleton
  */
@@ -30,22 +28,6 @@
 - (BOOL)registerRouterMapList:(NSArray *)routerList;
 
 /**
- *  Register class prefix
- *  the prefix is the prefix of whole project such as BX.
- *
- *  @return YES if prefix is given, otherwise prefix is needless.
- */
-- (BOOL)registerClassPrefix:(NSString *)prefix;
-
-/**
- *  Reset class prefix to null if no need for prefix.
- *  If url gives full name containing class prefix, call this method to reset prefix to null before openUrl.
- *
- *  @return YES if prefix is reset to null.
- */
-- (BOOL)resetClassPrefix;
-
-/**
  *  Jump to the view controller which router url maped.
  *
  *  @param url      jump to router url
@@ -56,3 +38,10 @@
 - (UIViewController<BXRouterProtocol> *)openUrl:(BXRouterUrl *)url delegate:(UIViewController *)delegate;
 
 @end
+
+typedef NS_ENUM(NSInteger, BXTransformType) {
+    BXTransformNone,
+    BXTransformPush,
+    BXTransformPop,
+    BXTransformPresent
+};

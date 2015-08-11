@@ -20,9 +20,7 @@
     // Do any additional setup after loading the view from its nib.
     self.title = NSStringFromClass([self class]);
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self action:@selector(back:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
 }
 
 - (void)back:(id)sender
