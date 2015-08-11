@@ -8,14 +8,18 @@
 
 #import "BXRouterUrl.h"
 
-NSString *const kBXRouterUrlSchema   = @"schema";
-NSString *const kBXRouterUrlAlias    = @"alias";
-NSString *const kBXRouterUrlParamMap = @"paramMap";
+NSString *const kBXRouterUrlSchema        = @"schema";
+NSString *const kBXRouterUrlCLassAlias    = @"alias";
+NSString *const kBXRouterUrlClassCategory = @"category";
+NSString *const kBXRouterUrlTransform     = @"transform";
+NSString *const kBXRouterUrlParamMap      = @"paramMap";
 
 @interface BXRouterUrl ()
 
 @property (nonatomic, strong, readwrite) NSString *urlSchema;
-@property (nonatomic, strong, readwrite) NSString *vcAlias;
+@property (nonatomic, strong, readwrite) NSString *classAlias;
+@property (nonatomic, strong, readwrite) NSString *classCategory;
+@property (nonatomic, strong, readwrite) NSString *transform;
 @property (nonatomic, strong, readwrite) NSDictionary *queryParams;
 
 @end
@@ -28,9 +32,12 @@ NSString *const kBXRouterUrlParamMap = @"paramMap";
     if (self) {
         NSDictionary *urlMap = [self parseUrl:url];
         self.urlSchema       = [urlMap objectForKey:kBXRouterUrlSchema];
-        self.vcAlias         = [urlMap objectForKey:kBXRouterUrlAlias];
+        self.classAlias      = [urlMap objectForKey:kBXRouterUrlCLassAlias];
+        self.classCategory   = [urlMap objectForKey:kBXRouterUrlClassCategory];
+        self.transform       = [urlMap objectForKey:kBXRouterUrlTransform];
         self.queryParams     = [urlMap objectForKey:kBXRouterUrlParamMap];
     }
+    
     return self;
 }
 
@@ -50,16 +57,37 @@ NSString *const kBXRouterUrlParamMap = @"paramMap";
         [urlMap setObject:schema forKey:kBXRouterUrlSchema];
     }
 
-    // parse alias
-    NSArray *vcparams = [[components objectAtIndex:1] componentsSeparatedByString:@"/?"];
-    NSString *alias   = [self vcAliasSeparatedByComponents:vcparams];
-    if ( alias ) {
-        [urlMap setObject:alias forKey:kBXRouterUrlAlias];
+    // parse ViewController params into dictionary
+    NSMutableDictionary *paramPairs = [[NSMutableDictionary alloc] init];
+    
+    NSArray *paramsSet = [[components objectAtIndex:1] componentsSeparatedByString:@"/"];
+    NSArray *vcParamItems = [[self getVCParamsSeparatedByParamsSet:paramsSet] componentsSeparatedByString:@"&"];
+    for (NSString *item in vcParamItems) {
+        NSArray *pair = [item componentsSeparatedByString:@"="];
+        if ([pair count] != 2) { continue; }
+        [paramPairs setValue:[pair objectAtIndex:1] forKey:[pair objectAtIndex:0]];
     }
-
+    // parse class alias
+    NSString *classAlias = [self getClassAliasByParamPairs:paramPairs];
+    [urlMap setObject:classAlias forKey:kBXRouterUrlCLassAlias];
+    
+    // parse class category
+    NSString *category = [self getVCJumpCategoryByParamPairs:paramPairs];
+    // category might be nil
+    if ( category ) {
+        [urlMap setObject:category forKey:kBXRouterUrlClassCategory];
+    }
+    
+    // parse class transform type
+    NSString *transform = [self getVCTransformTypeByParamPairs:paramPairs];
+    // transform type might be nil
+    if ( transform ) {
+        [urlMap setObject:transform forKey:kBXRouterUrlTransform];
+    }
+    
     // parse parameters
-    NSArray *parameters = [[vcparams objectAtIndex:1] componentsSeparatedByString:@"&"];
-    [urlMap setObject:[self queryParamsSeparatedByComponents:parameters] forKey:kBXRouterUrlParamMap];
+    NSArray *customParamItems = [[paramsSet objectAtIndex:1] componentsSeparatedByString:@"&"];
+    [urlMap setObject:[self queryParamsSeparatedByCustomParams:customParamItems] forKey:kBXRouterUrlParamMap];
 
     return [NSDictionary dictionaryWithDictionary:urlMap];
 }
@@ -71,21 +99,59 @@ NSString *const kBXRouterUrlParamMap = @"paramMap";
     return [components objectAtIndex:0];
 }
 
-- (NSString *)vcAliasSeparatedByComponents:(NSArray *)components
-{
-    NSAssert([components count] == 2, @"This is a failure when parse alias.");
+- (NSString *)getVCParamsSeparatedByParamsSet:(NSArray *)paramsSet
+{   // some items can be null
+    NSAssert([paramsSet count] > 0, @"Lack of params in url");
     
-    return [components objectAtIndex:0];
+    return [paramsSet objectAtIndex:0];
 }
 
-- (NSDictionary *)queryParamsSeparatedByComponents:(NSArray *)components
+- (NSString *)getClassAliasByParamPairs:(NSDictionary *)pairs
+{
+    // set class alias
+    NSAssert([pairs valueForKey:@"name"], @"Lack of class alias in url params");
+    
+    return [pairs valueForKey:@"name"];
+}
+
+- (NSString *)getVCJumpCategoryByParamPairs:(NSDictionary *)pairs
+{
+    // set class category
+    if ([[pairs allKeys] containsObject:@"category"]) {
+        NSString *category = [pairs valueForKey:@"category"];
+        NSArray *categorySet = @[@"nib",@"code"];
+        BOOL categoryIsLegal = [categorySet containsObject:category];
+        if ([category rangeOfString:@"storyboard:"].length > 0) {
+            categoryIsLegal = YES;
+        }
+        NSAssert(categoryIsLegal, @"This is a failure when parsing jump category.");
+        return category;
+    }
+    return nil;
+}
+
+- (NSString *)getVCTransformTypeByParamPairs:(NSDictionary *)pairs
+{
+    // set class transform
+    if ([[pairs allKeys] containsObject:@"transform"]) {
+        NSArray *styleSet = @[@"present", @"push", @"pop"];
+        NSAssert([styleSet containsObject:[pairs valueForKey:@"transform"]],
+                 @"This is a failure when parsing view controller transform style.");
+
+        return [pairs valueForKey:@"transform"];
+    }
+    return nil;
+}
+
+- (NSDictionary *)queryParamsSeparatedByCustomParams:(NSArray *)paramItems
 {
     NSMutableDictionary *paramMap = [[NSMutableDictionary alloc] init];
-    for (id component in components) {
-        NSArray *array = [component componentsSeparatedByString:@"="];
+    for (id item in paramItems) {
+        NSArray *array = [item componentsSeparatedByString:@"="];
         if ([array count] != 2) { continue; }
         [paramMap setObject:[array objectAtIndex:1] forKey:[array objectAtIndex:0]];
     }
+    
     return [NSDictionary dictionaryWithDictionary:paramMap];
 }
 

@@ -7,12 +7,15 @@
 //
 
 #import "BXRouterManager.h"
+#import "BXRouterConfig.h"
 #import "BXRouterMapItem.h"
 #import <objc/runtime.h>
 
 @interface BXRouterManager ()
 
 @property (nonatomic, strong) NSArray *vcMap;
+
+@property (nonatomic, strong, readwrite) NSString *classPrefix;
 
 @end
 
@@ -43,13 +46,23 @@
     return [BXRouterManager shareVCManager];
 }
 
+- (void)registerClassPrefix:(NSString *)prefix
+{
+    self.classPrefix = prefix;
+}
+
+- (void)resetClassPrefix
+{
+    self.classPrefix = @"";
+}
+
 - (BOOL)registerRouterMapList:(NSArray *)routerList
 {
     __block BOOL verify = YES;
     
     [routerList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if (![obj isMemberOfClass:[BXRouterMapItem class]]) {
-            *stop = YES;
+            *stop  = YES;
             verify = NO;
         }
     }];
@@ -63,38 +76,8 @@
     return verify;
 }
 
-- (BXRouterMapItem *)mapItemByAlias:(NSString *)alias
-{
-    for (BXRouterMapItem *mapItem in self.vcMap) {
-        if ([mapItem.alias compare:alias] == NSOrderedSame) {
-            return mapItem;
-        }
-    }
-    return nil;
-}
-
-- (BXTransformType)getTransformTypeByAlias:(NSString *)alias
-{
-    // default is push transition.
-    BXTransformType transformType = BXTransformPush;
-    
-    for (BXRouterMapItem *mapItem in _vcMap) {
-        if ([mapItem.alias compare:alias] == NSOrderedSame) {
-            if ([mapItem.transform isEqualToString:@"present"]) {
-                transformType = BXTransformPresent;
-            } else if ([mapItem.transform isEqualToString:@"pop"]) {
-                transformType = BXTransformPop;
-            }
-            break;
-        }
-    }
-    
-    return transformType;
-}
-
-- (UIViewController<BXRouterProtocol> *)getControllerByUrl:(BXRouterUrl *)url
-{
-    BXRouterMapItem *mapItem = [self mapItemByAlias:url.vcAlias];
+- (UIViewController<BXRouterProtocol> *)configureControllerByPlist:(BXRouterUrl *)url {
+    BXRouterMapItem *mapItem = [self mapItemByAlias:url.classAlias];
     
     if ([[NSBundle mainBundle] pathForResource:mapItem.vcClass ofType:@"nib"]) {
         // return view controller from nib
@@ -111,8 +94,35 @@
             }
         }
     }
-    
     return nil;
+}
+
+- (BXRouterMapItem *)mapItemByAlias:(NSString *)alias
+{
+    for (BXRouterMapItem *mapItem in self.vcMap) {
+        if ([mapItem.alias compare:alias] == NSOrderedSame) {
+            return mapItem;
+        }
+    }
+    return nil;
+}
+
+- (BXTransformType)configureTransformTypeByPlist:(NSString *)alias
+{
+    // default is push transition.
+    BXTransformType transformType = BXTransformPush;
+    
+    for (BXRouterMapItem *mapItem in _vcMap) {
+        if ([mapItem.alias compare:alias] == NSOrderedSame) {
+            if ([mapItem.transform isEqualToString:@"present"]) {
+                transformType = BXTransformPresent;
+            } else if ([mapItem.transform isEqualToString:@"pop"]) {
+                transformType = BXTransformPop;
+            }
+            break;
+        }
+    }
+    return transformType;
 }
 
 - (UIViewController<BXRouterProtocol> *)openUrl:(BXRouterUrl *)url delegate:(UIViewController *)delegate
@@ -120,7 +130,25 @@
     NSAssert(self.vcMap, @"please call 'registerRouterMapList' method first.");
     
     // get controller by url
-    UIViewController<BXRouterProtocol> *controller = [self getControllerByUrl:url];
+    UIViewController<BXRouterProtocol> *controller = [[BXRouterConfig shareConfig]
+                                                        configureControllerByUrl:url
+                                                            withPrefix:self.classPrefix];
+    // get transform type
+    BXTransformType transform = [[BXRouterConfig shareConfig] configureTransformTypeByUrl:url];
+
+    // can not get controller by parsing class alias, to search in plist.
+    if (nil == controller) {
+        controller = [self configureControllerByPlist:url];
+        NSAssert(controller, @"can not find the class by alias or plist");
+        
+        transform  = [self configureTransformTypeByPlist:url.classAlias];
+    }
+    
+    if (nil == delegate.navigationController) {
+        // if navigationController is nil, must present,
+        // or adding a root view controller as a child of view controller
+        transform = BXTransformPresent;
+    }
     
     // parse router url queryParams
     if ([controller respondsToSelector:@selector(queryParamsToPropertyKeyPaths:)]) {
@@ -133,19 +161,10 @@
         needInNavigationController = [controller needInNavigationController];
     }
     
-    // get transform type
-    BXTransformType transform = BXTransformNone;
-    if (nil == delegate.navigationController) {
-        // if navigationController is nil, must present,
-        // or adding a root view controller as a child of view controller
-        transform = BXTransformPresent;
-    } else {
-        transform = [self getTransformTypeByAlias:url.vcAlias];
-    }
-    
     if (BXTransformPresent == transform) {
         if (needInNavigationController) {
-            UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
+            UINavigationController *navigation = [[UINavigationController alloc]
+                                                  initWithRootViewController:controller];
             [delegate presentViewController:navigation animated:YES completion:^{}];
         } else {
             [delegate presentViewController:controller animated:YES completion:^{}];
@@ -157,7 +176,7 @@
             [delegate.navigationController pushViewController:controller animated:YES];
         }
     } else {
-        BXRouterMapItem *mapItem = [self mapItemByAlias:url.vcAlias];
+        BXRouterMapItem *mapItem = [self mapItemByAlias:url.classAlias];
         __weak NSArray *viewControllers = delegate.navigationController.viewControllers;
         [viewControllers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             if ([obj isMemberOfClass:NSClassFromString(mapItem.vcClass)]) {
@@ -168,7 +187,6 @@
             }
         }];
     }
-    
     return controller;
 }
 

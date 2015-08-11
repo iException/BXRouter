@@ -20,7 +20,9 @@
     // Do any additional setup after loading the view.
     self.title = NSStringFromClass([self class]);
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self action:@selector(back:)];
     
     self.view.backgroundColor = [UIColor redColor];
 }
