@@ -46,17 +46,14 @@
     return [BXRouterManager shareVCManager];
 }
 
-- (BOOL)registerClassPrefix:(NSString *)prefix
+- (void)registerClassPrefix:(NSString *)prefix
 {
     self.classPrefix = prefix;
-
-    return YES;
 }
 
-- (BOOL)resetClassPrefix {
+- (void)resetClassPrefix
+{
     self.classPrefix = @"";
-    
-    return YES;
 }
 
 - (BOOL)registerRouterMapList:(NSArray *)routerList
@@ -110,7 +107,7 @@
     return nil;
 }
 
-- (BXTransformType)configureTransformTypeByPlist:(NSString *)alias delegate:(UIViewController *)delegate
+- (BXTransformType)configureTransformTypeByPlist:(NSString *)alias
 {
     // default is push transition.
     BXTransformType transformType = BXTransformPush;
@@ -125,12 +122,6 @@
             break;
         }
     }
-    if (nil == delegate.navigationController) {
-        // if navigationController is nil, must present,
-        // or adding a root view controller as a child of view controller
-        transformType = BXTransformPresent;
-    }
-    
     return transformType;
 }
 
@@ -143,16 +134,22 @@
                                                         configureControllerByUrl:url
                                                             withPrefix:self.classPrefix];
     // get transform type
-    BXTransformType transform = [[BXRouterConfig shareConfig] configureTransformTypeByUrl:url
-                                                                             withDelegate:delegate];
+    BXTransformType transform = [[BXRouterConfig shareConfig] configureTransformTypeByUrl:url];
 
     // can not get controller by parsing class alias, to search in plist.
     if (nil == controller) {
         controller = [self configureControllerByPlist:url];
         NSAssert(controller, @"can not find the class by alias or plist");
         
-        transform  = [self configureTransformTypeByPlist:url.classAlias delegate:delegate];
+        transform  = [self configureTransformTypeByPlist:url.classAlias];
     }
+    
+    if (nil == delegate.navigationController) {
+        // if navigationController is nil, must present,
+        // or adding a root view controller as a child of view controller
+        transform = BXTransformPresent;
+    }
+    
     // parse router url queryParams
     if ([controller respondsToSelector:@selector(queryParamsToPropertyKeyPaths:)]) {
         [controller queryParamsToPropertyKeyPaths:url];

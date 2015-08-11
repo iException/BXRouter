@@ -12,8 +12,6 @@
 
 @interface BXRouterManager : NSObject
 
-@property (nonatomic, strong, readonly) NSString *classPrefix;
-
 /**
  *  @return BXRouterManager singleton
  */
@@ -35,7 +33,7 @@
  *
  *  @return YES if prefix is given, otherwise prefix is needless.
  */
-- (BOOL)registerClassPrefix:(NSString *)prefix;
+- (void)registerClassPrefix:(NSString *)prefix;
 
 /**
  *  Reset class prefix to null if no need for prefix.
@@ -43,7 +41,7 @@
  *
  *  @return YES if prefix is reset to null.
  */
-- (BOOL)resetClassPrefix;
+- (void)resetClassPrefix;
 
 /**
  *  Jump to the view controller which router url maped.

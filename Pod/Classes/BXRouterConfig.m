@@ -56,21 +56,14 @@
     return controller;
 }
 
-- (BXTransformType)configureTransformTypeByUrl:(BXRouterUrl *)url withDelegate:(UIViewController *)delegate
+- (BXTransformType)configureTransformTypeByUrl:(BXRouterUrl *)url
 {
-    BXTransformType transform = BXTransformNone;
-    if (nil == delegate.navigationController) {
-        // if navigationController is nil, must present,
-        // or adding a root view controller as a child of view controller
+    BXTransformType transform = BXTransformPush;
+    if ([url.transform isEqualToString:@"present"]) {
         transform = BXTransformPresent;
-    } else {
-        transform = BXTransformPush;
-        if ([url.transform isEqualToString:@"present"]) {
-            transform = BXTransformPresent;
-        }
-        else if ([url.transform isEqualToString:@"pop"]) {
-            transform = BXTransformPop;
-        }
+    }
+    else if ([url.transform isEqualToString:@"pop"]) {
+        transform = BXTransformPop;
     }
     return transform;
 }

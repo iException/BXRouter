@@ -27,6 +27,6 @@ typedef NS_ENUM(NSInteger, BXTransformType) {
 - (UIViewController<BXRouterProtocol> *)configureControllerByUrl:(BXRouterUrl *)url
                                                       withPrefix:(NSString *)prefix;
 
-- (BXTransformType)configureTransformTypeByUrl:(BXRouterUrl *)url withDelegate:(UIViewController *)delegate;
+- (BXTransformType)configureTransformTypeByUrl:(BXRouterUrl *)url;
 
 @end
