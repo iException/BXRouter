@@ -60,7 +60,7 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
     // parse ViewController params into dictionary
     NSMutableDictionary *paramPairs = [[NSMutableDictionary alloc] init];
     
-    NSArray *paramsSet = [[components objectAtIndex:1] componentsSeparatedByString:@"/"];
+    NSArray *paramsSet = [[components objectAtIndex:1] componentsSeparatedByString:@"/?"];
     NSString *vcParams = [self getVCParamsSeparatedByParamsSet:paramsSet];
     
     // url follows plist schema
