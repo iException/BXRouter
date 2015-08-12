@@ -43,7 +43,7 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
 
 #pragma mark -
 #pragma mark - General Method
-
+    
 - (NSDictionary *)parseUrl:(NSString *)url
 {
     NSAssert([url isKindOfClass:[NSString class]], @"this is a fail url.");
@@ -61,36 +61,52 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
     NSMutableDictionary *paramPairs = [[NSMutableDictionary alloc] init];
     
     NSArray *paramsSet = [[components objectAtIndex:1] componentsSeparatedByString:@"/"];
-    NSArray *vcParamItems = [[self getVCParamsSeparatedByParamsSet:paramsSet] componentsSeparatedByString:@"&"];
-    for (NSString *item in vcParamItems) {
-        NSArray *pair = [item componentsSeparatedByString:@"="];
-        if ([pair count] != 2) { continue; }
-        [paramPairs setValue:[pair objectAtIndex:1] forKey:[pair objectAtIndex:0]];
-    }
-    // parse class alias
-    NSString *classAlias = [self getClassAliasByParamPairs:paramPairs];
-    [urlMap setObject:classAlias forKey:kBXRouterUrlCLassAlias];
+    NSString *vcParams = [self getVCParamsSeparatedByParamsSet:paramsSet];
     
-    // parse class category
-    NSString *category = [self getVCJumpCategoryByParamPairs:paramPairs];
-    // category might be nil
-    if ( category ) {
-        [urlMap setObject:category forKey:kBXRouterUrlClassCategory];
+    // url follows plist schema
+    if ([vcParams rangeOfString:@"name="].length == 0) {
+        [urlMap setObject:[self parseParamsByPlistSchema:vcParams] forKey:kBXRouterUrlCLassAlias];
     }
+    else {
+        NSArray *vcParamItems = [vcParams componentsSeparatedByString:@"&"];
+        for (NSString *item in vcParamItems) {
+            NSArray *pair = [item componentsSeparatedByString:@"="];
+            if ([pair count] != 2) { continue; }
+            [paramPairs setValue:[pair objectAtIndex:1] forKey:[pair objectAtIndex:0]];
+        }
+        // parse class alias
+        NSString *classAlias = [self getClassAliasByParamPairs:paramPairs];
+        [urlMap setObject:classAlias forKey:kBXRouterUrlCLassAlias];
     
-    // parse class transform type
-    NSString *transform = [self getVCTransformTypeByParamPairs:paramPairs];
-    // transform type might be nil
-    if ( transform ) {
-        [urlMap setObject:transform forKey:kBXRouterUrlTransform];
+        // parse class category
+        NSString *category = [self getVCJumpCategoryByParamPairs:paramPairs];
+        // category might be nil
+        if ( category ) {
+            [urlMap setObject:category forKey:kBXRouterUrlClassCategory];
+        }
+    
+        // parse class transform type
+        NSString *transform = [self getVCTransformTypeByParamPairs:paramPairs];
+        // transform type might be nil
+        if ( transform ) {
+            [urlMap setObject:transform forKey:kBXRouterUrlTransform];
+        }
     }
-    
     // parse parameters
     NSArray *customParamItems = [[paramsSet objectAtIndex:1] componentsSeparatedByString:@"&"];
     [urlMap setObject:[self queryParamsSeparatedByCustomParams:customParamItems] forKey:kBXRouterUrlParamMap];
 
     return [NSDictionary dictionaryWithDictionary:urlMap];
 }
+
+- (NSString *)parseParamsByPlistSchema:(NSString *)params
+{
+    NSArray *array = @[@"storyboard_controller", @"nib_controller", @"code_controller"];
+    NSAssert([array containsObject:params], @"This is a failure when parse plist alias.");
+    
+    return params;
+}
+
 
 - (NSString *)urlSchemaSeparatedByComponents:(NSArray *)components
 {
