@@ -31,7 +31,7 @@
 
 - (IBAction)jumpByStoryboard:(id)sender
 {
-    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://storyboard_controller/paramA=xxx&paramB=xxx"];
+    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://name=StoryboardController&category=storyboard:Main/paramA=xxx&paramB=xxx"];
     [[BXRouterManager shareVCManager] openUrl:url delegate:self];
 }
 
@@ -43,8 +43,7 @@
 
 - (IBAction)jumpByCode:(id)sender
 {
-    [[BXRouterManager shareVCManager] resetClassPrefix];
-    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://code_controller/?"];
+    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://name=CodeViewController&abc=123&category=XXX&tranform=1234/?"];
     [[BXRouterManager shareVCManager] openUrl:url delegate:self];
 }
 

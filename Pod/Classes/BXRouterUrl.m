@@ -43,7 +43,7 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
 
 #pragma mark -
 #pragma mark - General Method
-    
+
 - (NSDictionary *)parseUrl:(NSString *)url
 {
     NSAssert([url isKindOfClass:[NSString class]], @"this is a fail url.");
@@ -65,7 +65,7 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
     
     // url follows plist schema
     if ([vcParams rangeOfString:@"name="].length == 0) {
-        [urlMap setObject:[self parseParamsByPlistSchema:vcParams] forKey:kBXRouterUrlCLassAlias];
+        [urlMap setObject:vcParams forKey:kBXRouterUrlCLassAlias];
     }
     else {
         NSArray *vcParamItems = [vcParams componentsSeparatedByString:@"&"];
@@ -82,7 +82,12 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
         NSString *category = [self getVCJumpCategoryByParamPairs:paramPairs];
         // category might be nil
         if ( category ) {
-            [urlMap setObject:category forKey:kBXRouterUrlClassCategory];
+            // category might be wrong
+            NSArray *categorySet = @[@"nib",@"code"];
+            if ([categorySet containsObject:category]
+                || [category rangeOfString:@"storyboard:"].length > 0) {
+                [urlMap setObject:category forKey:kBXRouterUrlClassCategory];
+            }
         }
     
         // parse class transform type
@@ -98,15 +103,6 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
 
     return [NSDictionary dictionaryWithDictionary:urlMap];
 }
-
-- (NSString *)parseParamsByPlistSchema:(NSString *)params
-{
-    NSArray *array = @[@"storyboard_controller", @"nib_controller", @"code_controller"];
-    NSAssert([array containsObject:params], @"This is a failure when parse plist alias.");
-    
-    return params;
-}
-
 
 - (NSString *)urlSchemaSeparatedByComponents:(NSArray *)components
 {
@@ -135,12 +131,6 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
     // set class category
     if ([[pairs allKeys] containsObject:@"category"]) {
         NSString *category = [pairs valueForKey:@"category"];
-        NSArray *categorySet = @[@"nib",@"code"];
-        BOOL categoryIsLegal = [categorySet containsObject:category];
-        if ([category rangeOfString:@"storyboard:"].length > 0) {
-            categoryIsLegal = YES;
-        }
-        NSAssert(categoryIsLegal, @"This is a failure when parsing jump category.");
         return category;
     }
     return nil;
@@ -150,10 +140,6 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
 {
     // set class transform
     if ([[pairs allKeys] containsObject:@"transform"]) {
-        NSArray *styleSet = @[@"present", @"push", @"pop"];
-        NSAssert([styleSet containsObject:[pairs valueForKey:@"transform"]],
-                 @"This is a failure when parsing view controller transform style.");
-
         return [pairs valueForKey:@"transform"];
     }
     return nil;
