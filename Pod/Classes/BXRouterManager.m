@@ -128,11 +128,11 @@
 - (UIViewController<BXRouterProtocol> *)openUrl:(BXRouterUrl *)url delegate:(UIViewController *)delegate
 {
     NSAssert(self.vcMap, @"please call 'registerRouterMapList' method first.");
+    NSAssert([delegate isKindOfClass:[UIViewController class]], @"when open url, the delegate must be a UIViewController.");
     
     // get controller by url
-    UIViewController<BXRouterProtocol> *controller = [[BXRouterConfig shareConfig]
-                                                        configureControllerByUrl:url
-                                                            withPrefix:self.classPrefix];
+    UIViewController<BXRouterProtocol> *controller = [[BXRouterConfig shareConfig] configureControllerByUrl:url withPrefix:self.classPrefix];
+    
     // get transform type
     BXTransformType transform = [[BXRouterConfig shareConfig] configureTransformTypeByUrl:url];
 
@@ -143,6 +143,9 @@
         
         transform  = [self configureTransformTypeByPlist:url.classAlias];
     }
+    
+    // if controller can not find, return nil
+    if (nil == controller) { return nil; }
     
     if (nil == delegate.navigationController) {
         // if navigationController is nil, must present,
