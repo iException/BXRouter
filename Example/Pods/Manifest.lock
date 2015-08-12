@@ -24,7 +24,7 @@ PODS:
     - AFNetworking (= 2.5.4)
     - CocoaLumberjack (= 2.0.0)
     - FMDB (= 2.5)
-  - BXRouter (1.1.1):
+  - BXRouter (1.2.0):
     - BaixingSDK
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
@@ -50,7 +50,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   BaixingSDK: 7c65a76ddcbb3a6bc6750342530bf436c6afc5cb
-  BXRouter: 4fa4e559373d136eaa1e56d9cc14d9c9ad23f47b
+  BXRouter: f733c9f8dfe9d32c8590d0d8f186e9167ae83e6e
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
 
