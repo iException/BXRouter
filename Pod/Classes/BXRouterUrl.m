@@ -134,10 +134,6 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
 {
     // set class transform
     if ([[pairs allKeys] containsObject:@"transform"]) {
-        NSArray *styleSet = @[@"present", @"push", @"pop"];
-        NSAssert([styleSet containsObject:[pairs valueForKey:@"transform"]],
-                 @"This is a failure when parsing view controller transform style.");
-
         return [pairs valueForKey:@"transform"];
     }
     return nil;
