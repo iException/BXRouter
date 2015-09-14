@@ -65,7 +65,9 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
     
     // url follows plist schema
     if ([vcParams rangeOfString:@"name="].length == 0) {
-        [urlMap setObject:vcParams forKey:kBXRouterUrlCLassAlias];
+        if (vcParams) {
+            [urlMap setObject:vcParams forKey:kBXRouterUrlCLassAlias];
+        }
     }
     else {
         NSArray *vcParamItems = [vcParams componentsSeparatedByString:@"&"];
@@ -74,9 +76,12 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
             if ([pair count] != 2) { continue; }
             [paramPairs setValue:[pair objectAtIndex:1] forKey:[pair objectAtIndex:0]];
         }
+        
         // parse class alias
         NSString *classAlias = [self getClassAliasByParamPairs:paramPairs];
-        [urlMap setObject:classAlias forKey:kBXRouterUrlCLassAlias];
+        if (classAlias) {
+            [urlMap setObject:classAlias forKey:kBXRouterUrlCLassAlias];
+        }
     
         // parse class category
         NSString *category = [self getVCJumpCategoryByParamPairs:paramPairs];
@@ -97,9 +102,13 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
             [urlMap setObject:transform forKey:kBXRouterUrlTransform];
         }
     }
+    
     // parse parameters
     NSArray *customParamItems = [[paramsSet objectAtIndex:1] componentsSeparatedByString:@"&"];
-    [urlMap setObject:[self queryParamsSeparatedByCustomParams:customParamItems] forKey:kBXRouterUrlParamMap];
+    NSDictionary *queryParams = [self queryParamsSeparatedByCustomParams:customParamItems];
+    if (queryParams) {
+        [urlMap setObject:queryParams forKey:kBXRouterUrlParamMap];
+    }
 
     return [NSDictionary dictionaryWithDictionary:urlMap];
 }
