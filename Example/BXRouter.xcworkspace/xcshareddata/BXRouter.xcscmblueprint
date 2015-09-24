@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "93927F2B9E1D8166489B736EEDE612B47E947B32",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "93927F2B9E1D8166489B736EEDE612B47E947B32" : 0,
+    "6359B8D81DC9324FFB14F19B46FB60171D4FBF7C" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "53E47737-7164-4176-B73B-65CB10DDAEA5",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "93927F2B9E1D8166489B736EEDE612B47E947B32" : "BXRouter",
+    "6359B8D81DC9324FFB14F19B46FB60171D4FBF7C" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BXRouter",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Example\/BXRouter.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/iException\/BXRouter.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6359B8D81DC9324FFB14F19B46FB60171D4FBF7C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/iException\/BXRouter.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "93927F2B9E1D8166489B736EEDE612B47E947B32"
+    }
+  ]
+}
