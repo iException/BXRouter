@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E0121B9D8636C6B230174BB /* libPods-BXRouter_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6D7E9ACEB2146E44E303C57 /* libPods-BXRouter_Example.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -20,14 +21,13 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
+		658D0DC5E72A50959EF6D7A5 /* libPods-BXRouter_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB5774D2171CCD193B1D6010 /* libPods-BXRouter_Tests.a */; };
 		69A4F7101B59068B004C2594 /* vcmap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69A4F70F1B59068B004C2594 /* vcmap.plist */; };
 		69A4F7131B590766004C2594 /* BXStoryboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A4F7121B590766004C2594 /* BXStoryboardController.m */; };
 		69A4F7171B59079C004C2594 /* BXNibViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A4F7151B59079C004C2594 /* BXNibViewController.m */; };
 		69A4F7181B59079C004C2594 /* BXNibViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69A4F7161B59079C004C2594 /* BXNibViewController.xib */; };
 		69A4F71B1B5907B7004C2594 /* BXCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A4F71A1B5907B7004C2594 /* BXCodeViewController.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
-		9B2D96E3360A16CEE15A6C0C /* Pods_BXRouter_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 488D00CE24542471775A98D3 /* Pods_BXRouter_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		BEB6FB596C118FA40EBF0096 /* Pods_BXRouter_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1B42538CF72ADB101BAB9A /* Pods_BXRouter_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,11 +42,9 @@
 
 /* Begin PBXFileReference section */
 		074687413252162E89502188 /* Pods-BXRouter_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BXRouter_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BXRouter_Tests/Pods-BXRouter_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		0E1B42538CF72ADB101BAB9A /* Pods_BXRouter_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BXRouter_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E7FEEE6ABBF4E67D0710CCC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		15E777326FF4B9A3165AC555 /* Pods-BXRouter_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BXRouter_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-BXRouter_Example/Pods-BXRouter_Example.release.xcconfig"; sourceTree = "<group>"; };
 		2F88C30DE72559AB371B9696 /* Pods-BXRouter_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BXRouter_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BXRouter_Tests/Pods-BXRouter_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		488D00CE24542471775A98D3 /* Pods_BXRouter_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BXRouter_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* BXRouter_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BXRouter_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -75,9 +73,11 @@
 		69A4F7191B5907B7004C2594 /* BXCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXCodeViewController.h; sourceTree = "<group>"; };
 		69A4F71A1B5907B7004C2594 /* BXCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXCodeViewController.m; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B6D7E9ACEB2146E44E303C57 /* libPods-BXRouter_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BXRouter_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF8F327BF254474D3238FC7D /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		CB5C38C82AE7254FCB9BE971 /* BXRouter.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = BXRouter.podspec; path = ../BXRouter.podspec; sourceTree = "<group>"; };
 		CF1BCAE5F08B9AF8B399DAAB /* Pods-BXRouter_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BXRouter_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BXRouter_Example/Pods-BXRouter_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		EB5774D2171CCD193B1D6010 /* libPods-BXRouter_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BXRouter_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +88,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				BEB6FB596C118FA40EBF0096 /* Pods_BXRouter_Example.framework in Frameworks */,
+				4E0121B9D8636C6B230174BB /* libPods-BXRouter_Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +99,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				9B2D96E3360A16CEE15A6C0C /* Pods_BXRouter_Tests.framework in Frameworks */,
+				658D0DC5E72A50959EF6D7A5 /* libPods-BXRouter_Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,8 +145,8 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				0E1B42538CF72ADB101BAB9A /* Pods_BXRouter_Example.framework */,
-				488D00CE24542471775A98D3 /* Pods_BXRouter_Tests.framework */,
+				B6D7E9ACEB2146E44E303C57 /* libPods-BXRouter_Example.a */,
+				EB5774D2171CCD193B1D6010 /* libPods-BXRouter_Tests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -265,7 +265,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = BX;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = phoebus;
 				TargetAttributes = {
 					6003F5AD195388D20070C39A = {

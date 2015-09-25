@@ -7,8 +7,6 @@
 //
 
 #import "BXNetworkManager.h"
-#import "AFNetworking.h"
-#import "AFNetworkReachabilityManager.h"
 #import "BXHttpRequest.h"
 #import "BXHttpCache.h"
 #import "BXHttpCacheObject.h"
@@ -16,6 +14,8 @@
 #import "BXError.h"
 #import "BXHTTPRequestOperationLogger.h"
 #import "BXDBManager.h"
+
+#import "AFNetworking.h"
 
 extern NSString * const kBXHttpCacheObjectRequest;
 extern NSString * const kBXHttpCacheObjectExpire;
@@ -47,6 +47,11 @@ extern NSString * const kBXHttpCacheObjectResponse;
 
     if (self) {
         [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+        
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@""]];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        manager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+        self.afManager = manager;
         
         // create cache db table.
         NSString *sql = @"create table if not exists net_caches (request text primary key, expire text, response blob);";
@@ -154,6 +159,7 @@ extern NSString * const kBXHttpCacheObjectResponse;
                 fileName:(NSString *)fileName
                     file:(NSData *)fileData
               parameters:(NSDictionary *)parameters
+                progress:(void (^)(long long writedBytes,long long totalBytes))progress
                  success:(void (^)(id data))success
                  failure:(void (^)(BXError *bxError))failure
 {
@@ -161,7 +167,7 @@ extern NSString * const kBXHttpCacheObjectResponse;
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
 
-    [manager POST:@"" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    AFHTTPRequestOperation *operation = [manager POST:@"" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:@"multipart/form-data"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         // callback
@@ -175,6 +181,15 @@ extern NSString * const kBXHttpCacheObjectResponse;
         BXError *bxError = [self transformError:error withOperation:operation];
         failure(bxError);
     }];
+    
+    [operation setUploadProgressBlock:^(NSUInteger __unused bytesWritten,
+                                        long long totalBytesWritten,
+                                        long long totalBytesExpectedToWrite) {
+        if (progress) {
+            progress(totalBytesWritten, totalBytesExpectedToWrite);
+        }
+    }];
+    [operation start];
 }
 
 - (void)uploadDataByUrl:(NSString *)url

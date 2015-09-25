@@ -13,9 +13,11 @@ typedef enum {
     BX_POST
 } BX_HTTP_METHOD;
 
-@class BXError;
+@class BXError, AFHTTPRequestOperationManager;
 
 @interface BXNetworkManager : NSObject
+
+@property (nonatomic) AFHTTPRequestOperationManager *afManager;
 
 + (instancetype)shareManager;
 
@@ -37,6 +39,7 @@ typedef enum {
                 fileName:(NSString *)fileName
                     file:(NSData *)fileData
               parameters:(NSDictionary *)parameters
+                progress:(void (^)(long long writedBytes,long long totalBytes))progress
                  success:(void (^)(id data))success
                  failure:(void (^)(BXError *bxError))failure;
 

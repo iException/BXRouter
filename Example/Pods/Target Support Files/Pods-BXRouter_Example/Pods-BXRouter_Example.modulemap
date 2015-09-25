@@ -1,6 +1,0 @@
-framework module Pods_BXRouter_Example {
-  umbrella header "Pods-BXRouter_Example-umbrella.h"
-
-  export *
-  module * { export * }
-}
