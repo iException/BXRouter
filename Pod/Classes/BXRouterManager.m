@@ -183,15 +183,22 @@
         }
     } else {
         BXRouterMapItem *mapItem = [self mapItemByAlias:url.classAlias];
+        
+        __block BOOL isPoped = NO;
         __weak NSArray *viewControllers = delegate.navigationController.viewControllers;
-        [viewControllers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if ([obj isMemberOfClass:NSClassFromString(mapItem.vcClass)]) {
-                *stop = YES;
-                [delegate.navigationController popToViewController:obj animated:YES];
-            } else if (viewControllers.count == (idx + 1)) {
-                [delegate.navigationController pushViewController:controller animated:YES];
-            }
-        }];
+        if (viewControllers.count > 0) {
+            [viewControllers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([obj isMemberOfClass:NSClassFromString(mapItem.vcClass)]) {
+                    *stop = YES;
+                    isPoped = YES;
+                    [delegate.navigationController popToViewController:obj animated:YES];
+                }
+            }];
+        }
+        
+        if (!isPoped) {
+            [delegate.navigationController pushViewController:controller animated:YES];
+        }
     }
     return controller;
 }
