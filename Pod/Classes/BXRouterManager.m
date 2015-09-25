@@ -116,7 +116,7 @@
         if ([mapItem.alias compare:alias] == NSOrderedSame) {
             if ([mapItem.transform isEqualToString:@"present"]) {
                 transformType = BXTransformPresent;
-            } else if ([mapItem.transform isEqualToString:@"push"]) {
+            } else {
                 transformType = BXTransformPush;
                 if (mapItem.unique) {
                     transformType = BXTransformPop;
