@@ -48,6 +48,10 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
 {
     NSAssert([url isKindOfClass:[NSString class]], @"this is a fail url.");
     
+    if (![url isKindOfClass:[NSString class]]) {
+        return nil;
+    }
+    
     NSMutableDictionary *urlMap = [[NSMutableDictionary alloc] init];
     
     // parse schema
