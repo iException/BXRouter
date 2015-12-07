@@ -78,7 +78,7 @@
 
 - (UIViewController<BXRouterProtocol> *)configureControllerByPlist:(BXRouterUrl *)url {
     BXRouterMapItem *mapItem = [self mapItemByAlias:url.classAlias];
-    if (!mapItem) {
+    if (!mapItem || mapItem.vcClass.length==0) {
         return nil;
     }
     if ([[NSBundle mainBundle] pathForResource:mapItem.vcClass ofType:@"nib"]) {

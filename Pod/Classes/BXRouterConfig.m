@@ -101,17 +101,29 @@
 {
     if ([category isEqualToString:@"nib"]) {
         // return view controller from nib
+        if (! [[NSBundle mainBundle] pathForResource:name ofType:@"nib"]) {
+            return nil;
+        }
         return [[NSClassFromString(name) alloc] initWithNibName:name bundle:nil];
-    } else if ([category rangeOfString:@"storyboard:"].length == 0) {
-        // return view controller from code
-        return [[NSClassFromString(name) alloc] init];
-    } else {
+    }
+    else if ([category rangeOfString:@"storyboard:"].length != 0) {
         // return view controller from storyboard
         NSArray *array = [category componentsSeparatedByString:@":"];
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:[array objectAtIndex:1] bundle:nil];
-        if (storyboard != nil) {
-            return [storyboard instantiateViewControllerWithIdentifier:name];
+        if (array.count != 2) {
+            return nil;
         }
+        if (! [[NSBundle mainBundle] pathForResource:[array objectAtIndex:1] ofType:@"storyboard"]) {
+            return nil;
+        }
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:[array objectAtIndex:1] bundle:nil];
+        return [storyboard instantiateViewControllerWithIdentifier:name];
+    }
+    else {
+        // return view controller from code
+        if (! NSClassFromString(name)) {
+            return nil;
+        }
+        return [[NSClassFromString(name) alloc] init];
     }
     return nil;
 }
