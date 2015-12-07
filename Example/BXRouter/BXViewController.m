@@ -31,13 +31,13 @@
 
 - (IBAction)jumpByStoryboard:(id)sender
 {
-    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://name=StoryboardController&category=storyboard:Main/paramA=xxx&paramB=xxx"];
+    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://name=StoryboardController&category=storyboard:Main/?paramA=xxx&paramB=xxx"];
     [[BXRouterManager shareVCManager] openUrl:url delegate:self];
 }
 
 - (IBAction)jumpByNib:(id)sender
 {
-    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://nib_controller/paramA=xxx&paramB=xxx"];
+    BXRouterUrl *url = [[BXRouterUrl alloc] initWithUrl:@"bxapp://nib_controller/?paramA=xxx&paramB=xxx"];
     [[BXRouterManager shareVCManager] openUrl:url delegate:self];
 }
 

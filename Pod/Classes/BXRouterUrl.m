@@ -31,6 +31,9 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
     self = [super init];
     if (self) {
         NSDictionary *urlMap = [self parseUrl:url];
+        if (!urlMap) {
+            return self;
+        }
         self.urlSchema       = [urlMap objectForKey:kBXRouterUrlSchema];
         self.classAlias      = [urlMap objectForKey:kBXRouterUrlCLassAlias];
         self.classCategory   = [urlMap objectForKey:kBXRouterUrlClassCategory];
@@ -57,9 +60,10 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
     // parse schema
     NSArray *components         = [url componentsSeparatedByString:@"://"];
     NSString *schema            = [self urlSchemaSeparatedByComponents:components];
-    if ( schema ) {
-        [urlMap setObject:schema forKey:kBXRouterUrlSchema];
+    if ( !schema ) {
+        return nil;
     }
+    [urlMap setObject:schema forKey:kBXRouterUrlSchema];
 
     // parse ViewController params into dictionary
     NSMutableDictionary *paramPairs = [[NSMutableDictionary alloc] init];
@@ -69,9 +73,7 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
     
     // url follows plist schema
     if ([vcParams rangeOfString:@"name="].length == 0) {
-        if (vcParams) {
-            [urlMap setObject:vcParams forKey:kBXRouterUrlCLassAlias];
-        }
+        [urlMap setObject:vcParams forKey:kBXRouterUrlCLassAlias];
     }
     else {
         NSArray *vcParamItems = [vcParams componentsSeparatedByString:@"&"];
@@ -83,10 +85,11 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
         
         // parse class alias
         NSString *classAlias = [self getClassAliasByParamPairs:paramPairs];
-        if (classAlias) {
-            [urlMap setObject:classAlias forKey:kBXRouterUrlCLassAlias];
+        if (!classAlias) {
+            return nil;
         }
-    
+        [urlMap setObject:classAlias forKey:kBXRouterUrlCLassAlias];
+        
         // parse class category
         NSString *category = [self getVCJumpCategoryByParamPairs:paramPairs];
         // category might be nil
@@ -108,35 +111,36 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
     }
     
     // parse parameters
-    NSArray *customParamItems = [[paramsSet objectAtIndex:1] componentsSeparatedByString:@"&"];
-    NSDictionary *queryParams = [self queryParamsSeparatedByCustomParams:customParamItems];
-    if (queryParams) {
-        [urlMap setObject:queryParams forKey:kBXRouterUrlParamMap];
+    if(paramsSet.count > 1) {
+        NSArray *customParamItems = [[paramsSet objectAtIndex:1] componentsSeparatedByString:@"&"];
+        NSDictionary *queryParams = [self queryParamsSeparatedByCustomParams:customParamItems];
+        if (queryParams.count > 0) {
+            [urlMap setObject:queryParams forKey:kBXRouterUrlParamMap];
+        }
     }
-
     return [NSDictionary dictionaryWithDictionary:urlMap];
 }
 
 - (NSString *)urlSchemaSeparatedByComponents:(NSArray *)components
 {
-    NSAssert([components count] == 2, @"This is a failure when parse schema.");
-    
-    return [components objectAtIndex:0];
+    if ([components count] == 2) {
+        return [components objectAtIndex:0];
+    }
+    return nil;
 }
 
 - (NSString *)getVCParamsSeparatedByParamsSet:(NSArray *)paramsSet
 {   // some items can be null
-    NSAssert([paramsSet count] > 0, @"Lack of params in url");
-    
     return [paramsSet objectAtIndex:0];
 }
 
 - (NSString *)getClassAliasByParamPairs:(NSDictionary *)pairs
 {
     // set class alias
-    NSAssert([pairs valueForKey:@"name"], @"Lack of class alias in url params");
-    
-    return [pairs valueForKey:@"name"];
+    if ([pairs valueForKey:@"name"]) {
+        return [pairs valueForKey:@"name"];
+    }
+    return nil;
 }
 
 - (NSString *)getVCJumpCategoryByParamPairs:(NSDictionary *)pairs

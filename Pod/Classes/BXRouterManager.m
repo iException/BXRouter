@@ -78,7 +78,9 @@
 
 - (UIViewController<BXRouterProtocol> *)configureControllerByPlist:(BXRouterUrl *)url {
     BXRouterMapItem *mapItem = [self mapItemByAlias:url.classAlias];
-    
+    if (!mapItem) {
+        return nil;
+    }
     if ([[NSBundle mainBundle] pathForResource:mapItem.vcClass ofType:@"nib"]) {
         // return view controller from nib
         return [[NSClassFromString(mapItem.vcClass) alloc] initWithNibName:mapItem.vcClass bundle:nil];
@@ -100,7 +102,10 @@
 - (BXRouterMapItem *)mapItemByAlias:(NSString *)alias
 {
     for (BXRouterMapItem *mapItem in self.vcMap) {
-        if ([mapItem.alias compare:alias] == NSOrderedSame) {
+        // 防止以后plist中也出现大写的alias
+        NSString *mapLowCase   = [mapItem.alias lowercaseString];
+        NSString *aliasLowCase = [alias lowercaseString];
+        if ([mapLowCase compare:aliasLowCase] == NSOrderedSame) {
             return mapItem;
         }
     }
@@ -142,8 +147,6 @@
     // can not get controller by parsing class alias, to search in plist.
     if (nil == controller) {
         controller = [self configureControllerByPlist:url];
-        NSAssert(controller, @"can not find the class by alias or plist");
-        
         transform  = [self configureTransformTypeByPlist:url.classAlias];
     }
     

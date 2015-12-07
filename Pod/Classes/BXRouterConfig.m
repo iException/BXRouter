@@ -44,6 +44,10 @@
 
 - (UIViewController<BXRouterProtocol> *)configureControllerByUrl:(BXRouterUrl *)url withPrefix:(NSString *)prefix
 {
+    if (!url.classAlias) {
+        return nil;
+    }
+    
     _classPrefix = prefix;
     
     // configure controller
