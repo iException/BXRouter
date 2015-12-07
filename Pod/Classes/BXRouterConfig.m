@@ -112,7 +112,7 @@
         if (array.count != 2) {
             return nil;
         }
-        if (! [[NSBundle mainBundle] pathForResource:[array objectAtIndex:1] ofType:@"storyboard"]) {
+        if (! [[NSBundle mainBundle] pathForResource:[array objectAtIndex:1] ofType:@"storyboardc"]) {
             return nil;
         }
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:[array objectAtIndex:1] bundle:nil];

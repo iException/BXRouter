@@ -81,19 +81,28 @@
     if (!mapItem || mapItem.vcClass.length==0) {
         return nil;
     }
+    // return view controller from nib
     if ([[NSBundle mainBundle] pathForResource:mapItem.vcClass ofType:@"nib"]) {
-        // return view controller from nib
         return [[NSClassFromString(mapItem.vcClass) alloc] initWithNibName:mapItem.vcClass bundle:nil];
-    } else {
+    }
+    else {
+        // return view controller from programming
         if (!mapItem.vcStoryboard || mapItem.vcStoryboard.length == 0) {
-            // return view controller from programming
-            return [[NSClassFromString(mapItem.vcClass) alloc] init];
-        } else {
-            // return view controller from storyboard
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:mapItem.vcStoryboard bundle:nil];
-            if (storyboard != nil) {
-                return [storyboard instantiateViewControllerWithIdentifier:mapItem.vcClass];
+            if (! NSClassFromString(mapItem.vcClass)) {
+                return nil;
             }
+            return [[NSClassFromString(mapItem.vcClass) alloc] init];
+        }
+        // return view controller from storyboard
+        else {
+            if (! [[NSBundle mainBundle] pathForResource:mapItem.vcStoryboard ofType:@"storyboardc"]) {
+                return nil;
+            }
+            if (! NSClassFromString(mapItem.vcClass)) { // 防止plist中storyboard找到而class找不到
+                return nil;
+            }
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:mapItem.vcStoryboard bundle:nil];
+            return [storyboard instantiateViewControllerWithIdentifier:mapItem.vcClass];
         }
     }
     return nil;
