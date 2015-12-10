@@ -51,24 +51,26 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
 {
     NSAssert([url isKindOfClass:[NSString class]], @"this is a fail url.");
     
-    if (![url isKindOfClass:[NSString class]]) {
+    if (url.length>0 && ![url isKindOfClass:[NSString class]]) {
         return nil;
     }
     
     NSMutableDictionary *urlMap = [[NSMutableDictionary alloc] init];
     
     // parse schema
-    NSArray *components         = [url componentsSeparatedByString:@"://"];
-    NSString *schema            = [self urlSchemaSeparatedByComponents:components];
-    if ( !schema ) {
+    NSArray *components = [url componentsSeparatedByString:@"://"];
+    if (components.count != 2) {
         return nil;
     }
-    [urlMap setObject:schema forKey:kBXRouterUrlSchema];
+    
+    NSString *appSchema = [self appSchemaSeparatedByComponents:components];
+    [urlMap setObject:appSchema forKey:kBXRouterUrlSchema];
 
     // parse ViewController params into dictionary
     NSMutableDictionary *paramPairs = [[NSMutableDictionary alloc] init];
     
-    NSArray *paramsSet = [[components objectAtIndex:1] componentsSeparatedByString:@"/?"];
+    NSString *vcSchema = [self vcSchemaSeparatedByComponents:components];
+    NSArray *paramsSet = [vcSchema componentsSeparatedByString:@"/?"];
     NSString *vcParams = [self getVCParamsSeparatedByParamsSet:paramsSet];
     
     // url follows plist schema
@@ -121,12 +123,14 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
     return [NSDictionary dictionaryWithDictionary:urlMap];
 }
 
-- (NSString *)urlSchemaSeparatedByComponents:(NSArray *)components
+- (NSString *)appSchemaSeparatedByComponents:(NSArray *)components
 {
-    if ([components count] == 2) {
-        return [components objectAtIndex:0];
-    }
-    return nil;
+    return [components objectAtIndex:0];
+}
+
+- (NSString *)vcSchemaSeparatedByComponents:(NSArray *)components
+{
+    return [components objectAtIndex:1];
 }
 
 - (NSString *)getVCParamsSeparatedByParamsSet:(NSArray *)paramsSet
