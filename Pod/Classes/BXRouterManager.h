@@ -29,17 +29,14 @@
 
 /**
  *  Register class prefix
- *  the prefix is the prefix of whole project such as BX.
  *
- *  @return YES if prefix is given, otherwise prefix is needless.
+ *  @param prefix the prefix is the prefix of whole project such as BX.
  */
 - (void)registerClassPrefix:(NSString *)prefix;
 
 /**
  *  Reset class prefix to null if no need for prefix.
  *  If url gives full name containing class prefix, call this method to reset prefix to null before openUrl.
- *
- *  @return YES if prefix is reset to null.
  */
 - (void)resetClassPrefix;
 
