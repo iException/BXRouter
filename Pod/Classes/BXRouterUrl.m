@@ -49,7 +49,10 @@ NSString *const kBXRouterUrlParamMap      = @"paramMap";
 
 - (NSDictionary *)parseUrl:(NSString *)url
 {
-    NSAssert([url isKindOfClass:[NSString class]], @"this is a fail url.");
+    if (![url isKindOfClass:[NSString class]]) {
+        NSAssert(NO, @"this is a fail url.");
+        return nil;
+    }
     
     if (url.length>0 && ![url isKindOfClass:[NSString class]]) {
         return nil;
