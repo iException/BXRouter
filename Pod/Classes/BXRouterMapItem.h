@@ -18,7 +18,7 @@
 /**
  *  YES if item is translucent.
  */
-@property (nonatomic, strong, readonly) BOOL translucent;
+@property (nonatomic, assign, readonly) BOOL translucent;
 
 /**
  *  Assign storyboard name, if not need storyboard, set nil.
