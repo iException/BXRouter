@@ -181,18 +181,12 @@
         if (needInNavigationController) {
             UINavigationController *navigation = [[UINavigationController alloc]
                                                   initWithRootViewController:controller];
-            if (mapItem.translucent) {
-                UIViewController *rootViewController = delegate.view.window.rootViewController;
-                rootViewController.definesPresentationContext = YES;
-                navigation.modalPresentationStyle = UIModalPresentationCurrentContext;
-                [rootViewController presentViewController:controller animated:YES completion:nil];
-            }
             [delegate presentViewController:navigation animated:YES completion:^{}];
         } else {
             if (mapItem.translucent) {
                 UIViewController *rootViewController = delegate.view.window.rootViewController;
                 rootViewController.definesPresentationContext = YES;
-                controller.modalPresentationStyle = UIModalPresentationCurrentContext;
+                controller.modalPresentationStyle = UIModalPresentationOverCurrentContext;
                 [rootViewController presentViewController:controller animated:YES completion:nil];
             } else {
                 [delegate presentViewController:controller animated:YES completion:^{}];
