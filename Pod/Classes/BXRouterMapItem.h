@@ -13,7 +13,12 @@
 /**
  *  YES if item is unique in UINavigationcontroller.
  */
-@property (nonatomic, assign, readonly) BOOL     unique;
+@property (nonatomic, assign, readonly) BOOL unique;
+
+/**
+ *  YES if item is translucent.
+ */
+@property (nonatomic, strong, readonly) BOOL translucent;
 
 /**
  *  Assign storyboard name, if not need storyboard, set nil.

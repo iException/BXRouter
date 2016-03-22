@@ -125,18 +125,14 @@
 {
     // default is push transition.
     BXTransformType transformType = BXTransformPush;
+    BXRouterMapItem *mapItem = [self mapItemByAlias:alias];
     
-    for (BXRouterMapItem *mapItem in _vcMap) {
-        if ([mapItem.alias compare:alias] == NSOrderedSame) {
-            if ([mapItem.transform isEqualToString:@"present"]) {
-                transformType = BXTransformPresent;
-            } else {
-                transformType = BXTransformPush;
-                if (mapItem.unique) {
-                    transformType = BXTransformPop;
-                }
-            }
-            break;
+    if ([mapItem.transform isEqualToString:@"present"]) {
+        transformType = BXTransformPresent;
+    } else {
+        transformType = BXTransformPush;
+        if (mapItem.unique) {
+            transformType = BXTransformPop;
         }
     }
     return transformType;
@@ -180,11 +176,21 @@
     }
     
     if (BXTransformPresent == transform) {
+        BXRouterMapItem *mapItem = [self mapItemByAlias:url.classAlias];
+        
         if (needInNavigationController) {
             UINavigationController *navigation = [[UINavigationController alloc]
                                                   initWithRootViewController:controller];
+            if (mapItem.translucent) {
+                delegate.definesPresentationContext = YES;
+                navigation.modalPresentationStyle = UIModalPresentationCurrentContext;
+            }
             [delegate presentViewController:navigation animated:YES completion:^{}];
         } else {
+            if (mapItem.translucent) {
+                delegate.definesPresentationContext = YES;
+                controller.modalPresentationStyle = UIModalPresentationCurrentContext;
+            }
             [delegate presentViewController:controller animated:YES completion:^{}];
         }
     } else if (BXTransformPush == transform) {

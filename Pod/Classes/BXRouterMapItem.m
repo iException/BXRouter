@@ -13,10 +13,12 @@ NSString * const kBXRouterMapItemVCClass      = @"class";
 NSString * const kBXRouterMapItemAlias        = @"alias";
 NSString * const kBXRouterMapItemUnique       = @"unique";
 NSString * const kBXVCMAPItemTransform        = @"transform";
+NSString * const kBXRouterMapItemTranslucent  = @"translucent";
 
 @interface BXRouterMapItem ()
 
 @property (nonatomic, assign, readwrite) BOOL        unique;
+@property (nonatomic, assign, readwrite) BOOL        translucent;
 @property (nonatomic, strong, readwrite) NSString    *vcStoryboard;
 @property (nonatomic, strong, readwrite) NSString    *vcClass;
 @property (nonatomic, strong, readwrite) NSString    *alias;
@@ -35,6 +37,7 @@ NSString * const kBXVCMAPItemTransform        = @"transform";
         self.alias        = [object objectForKey:kBXRouterMapItemAlias];
         self.unique       = [[object objectForKey:kBXRouterMapItemUnique] boolValue];
         self.transform    = [object objectForKey:kBXVCMAPItemTransform];
+        self.translucent  = [[object objectForKey:kBXRouterMapItemTranslucent] boolValue];
     }
     return self;
 }
